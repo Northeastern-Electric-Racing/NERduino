@@ -81,12 +81,14 @@ class nerduino
     public:
         nerduino();
         ~nerduino();
-        void getADXLdata(XYZData_t *xyzbuf);
 
-    /**
-     * @todo: call all constructors of onboard chips during this intialization, maybe change hierarchy?
-     *
-     */
+        /**
+         * @brief fills a buffer of data type XYZData_t with XYZ accelerometer data
+         * @note size of buffer is determined by NUM_ADXL312_SAMPLES macro
+         * 
+         * @param xyzbuf 
+         */
+        void getADXLdata(XYZData_t *xyzbuf);
 };
 
 /*************************************************/

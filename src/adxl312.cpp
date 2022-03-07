@@ -1,9 +1,6 @@
 #include "adxl312.h"
 
-/**
- * @brief Construct a new ADXL312 object and verify and configure the functionality of the chip
- * 
- */
+
 ADXL312::ADXL312()
 {
     if(verifyFunctionality())
@@ -16,12 +13,7 @@ ADXL312::ADXL312()
 
 ADXL312::~ADXL312(){}
 
-/**
- * @brief Writing to the local I2C bus with the address of the ADXL312
- * 
- * @param msg 
- * @param numBytes
- */
+
 void ADXL312::ADXL312write(uint8_t *cmd, uint8_t numBytes)
 {
     Wire.beginTransmission(ADXL312_I2C_ADDR);
@@ -32,14 +24,7 @@ void ADXL312::ADXL312write(uint8_t *cmd, uint8_t numBytes)
     Wire.endTransmission(false);
 }
 
-/**
- * @brief Requesting data to read in from the ADXL312
- * 
- * @param msg 
- * @param numBytes 
- * @return true 
- * @return false 
- */
+
 bool ADXL312::ADXL312read(uint8_t *msg, uint8_t numBytes)
 {
     Wire.requestFrom(ADXL312_I2C_ADDR, (int)numBytes);
@@ -58,12 +43,7 @@ bool ADXL312::ADXL312read(uint8_t *msg, uint8_t numBytes)
     return false;
 }
 
-/**
- * @brief Verify the functionality of the onboard ADXL312
- * 
- * @return true 
- * @return false 
- */
+
 bool ADXL312::verifyFunctionality()
 {
     uint8_t cmd[1] = {ADXL312_DEVID_REG}; 
@@ -82,21 +62,14 @@ bool ADXL312::verifyFunctionality()
     return false;
 }
 
-/**
- * @brief Setting the ADXL312 to actively measure the XYZ data
- * 
- */
+
 void ADXL312::configureForMeasurement()
 {
     uint8_t cmd[2] = {ADXL312_POWER_CTRL_REG, ADXL312_POWER_CTRL_MEASURECMD}; 
     ADXL312write(cmd, 1);
 }
 
-/**
- * @brief Retrieves the XYZ acceleration data
- * @note configureForMeasurement() must be run before this
- * @param msg 
- */
+
 void ADXL312::getXYZ(uint8_t *msg)
 {
     uint8_t cmd[1] = {ADXL312_XYZDATA_REG_OFFSET}; 

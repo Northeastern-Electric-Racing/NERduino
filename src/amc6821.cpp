@@ -1,9 +1,6 @@
 #include "amc6821.h"
 
-/**
- * @brief Construct a new AMC6821::AMC6821 object, verify functionality, set PWM duty cycle to 0, and retrieve current pwm characteristics
- * 
- */
+
 AMC6821::AMC6821()
 {
     if(verifyFunctionality())
@@ -20,46 +17,25 @@ AMC6821::AMC6821()
 
 AMC6821::~AMC6821(){}
 
-/**
- * @brief Writing to the local I2C bus with the address of the AMC6821
- * 
- * @param cmd 
- * @param numBytes 
- */
+
 void AMC6821::AMC6821write(uint8_t *cmd, uint8_t numBytes)
 {
 
 }
 
-/**
- * @brief Requesting data to read in from the AMC6821
- * 
- * @param msg 
- * @param numBytes 
- * @return true 
- * @return false 
- */
+
 bool AMC6821::AMC6821read(uint8_t *msg,uint8_t numBytes)
 {
 
 }
 
-/**
- * @brief Verify the functionality of the onboard AMC6821
- * 
- * @return true 
- * @return false 
- */
+
 bool AMC6821::verifyFunctionality()
 {
 
 }
 
-/**
- * @brief Toggles the PWM output
- * 
- * @param pwm_toggle 
- */
+
 void AMC6821::enablePWM(bool pwm_toggle)
 {
     uint8_t *config2 = getConfig2Reg();
@@ -71,11 +47,7 @@ void AMC6821::enablePWM(bool pwm_toggle)
     setConfig2Reg(newconfig2);
 }
 
-/**
- * @brief Reading the Configuration 2 Register
- * 
- * @return uint8_t* 
- */
+
 uint8_t *AMC6821::getConfig2Reg()
 {
     uint8_t cmd[1] = {AMC6821_CONFIG2_REG};
@@ -89,11 +61,7 @@ uint8_t *AMC6821::getConfig2Reg()
     return NULL;
 }
 
-/**
- * @brief Set the Configuration 2 Register
- * 
- * @param config 
- */
+
 void AMC6821::setConfig2Reg(uint8_t config)
 {
     uint8_t cmd[2] = {AMC6821_CONFIG2_REG, config};
@@ -101,41 +69,25 @@ void AMC6821::setConfig2Reg(uint8_t config)
     return;
 }
 
-/**
- * @brief Toggles the Fan Spin Up mode for PWM output
- * 
- * @param fanspinup_toggle 
- */
+
 void AMC6821::enableFanSpinup(bool fanspinup_toggle)
 {
 
 }
 
-/**
- * @brief Sets the duty cycle of the PWM output
- * 
- * @param dutycycle 
- */
+
 void AMC6821::setDutyCycle(uint8_t dutycycle)
 {
 
 }
 
-/**
- * @brief Sets the characteristics of the characteristics register for PWM operation
- * 
- * @param fanspinuptime 
- * @param pwmfreq 
- */
+
 void AMC6821::setCharacteristics(fanspinuptime_t fanspinuptime, pwmfreq_t pwmfreq)
 {
 
 }
 
-/**
- * @brief Retrieves the current characteristics for PWM operation
- * 
- */
+
 void AMC6821::getCharacteristics()
 {
     uint8_t cmd[1] = {AMC6821_CHARACTERISTICS_REG};

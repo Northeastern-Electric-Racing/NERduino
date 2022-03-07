@@ -19,14 +19,52 @@
 class ADXL312
 {
     private:
+        /**
+         * @brief Writing to the local I2C bus with the address of the ADXL312
+         * 
+         * @param msg 
+         * @param numBytes
+         */
         void ADXL312write(uint8_t *msg, uint8_t numBytes);
+
+        /**
+         * @brief Requesting data to read in from the ADXL312
+         * 
+         * @param msg 
+         * @param numBytes 
+         * @return true 
+         * @return false 
+         */
         bool ADXL312read(uint8_t *msg,uint8_t numBytes);
 
     public:
+        /**
+         * @brief Construct a new ADXL312 object and verify and configure the functionality of the chip
+         * 
+         */
         ADXL312();      //constructor
+
         ~ADXL312();     //destructor
+
+        /**
+         * @brief Verify the functionality of the onboard ADXL312
+         * 
+         * @return true 
+         * @return false 
+         */
         bool verifyFunctionality();
+
+        /**
+         * @brief Setting the ADXL312 to actively measure the XYZ data
+         * 
+         */
         void configureForMeasurement();
+
+        /**
+         * @brief Retrieves the XYZ acceleration data
+         * @note configureForMeasurement() must be run before this
+         * @param msg 
+         */
         void getXYZ(uint8_t *msg);
 };
 

@@ -66,10 +66,28 @@ typedef enum
 class AMC6821
 {
     private:
+        /**
+         * @brief Writing to the local I2C bus with the address of the AMC6821
+         * 
+         * @param cmd 
+         * @param numBytes 
+         */
         void AMC6821write(uint8_t *cmd, uint8_t numBytes);
+
+        /**
+         * @brief Requesting data to read in from the AMC6821
+         * 
+         * @param msg 
+         * @param numBytes 
+         * @return true 
+         * @return false 
+         */
         bool AMC6821read(uint8_t *msg,uint8_t numBytes);
 
-        //PWM characteristics bitfield
+        /**
+         * @brief characteristics register bitfield
+         * 
+         */
         union
         {
             uint8_t *msg;
@@ -84,15 +102,69 @@ class AMC6821
         }characteristicsmsg;
 
     public:
+        /**
+         * @brief Construct a new AMC6821::AMC6821 object, verify functionality, set PWM duty cycle to 0, and retrieve current pwm characteristics
+         * 
+         */
         AMC6821();
+
         ~AMC6821();
+
+        /**
+         * @brief Verify the functionality of the onboard AMC6821
+         * 
+         * @return true 
+         * @return false 
+         */
         bool verifyFunctionality();
+
+        /**
+         * @brief Toggles the PWM output
+         * 
+         * @param pwm_toggle 
+         */
         void enablePWM(bool pwm_toggle);
+
+        /**
+         * @brief Toggles the Fan Spin Up mode for PWM output
+         * 
+         * @param fanspinup_toggle 
+         */
         void enableFanSpinup(bool fanspinup_toggle);
+
+        /**
+         * @brief Sets the duty cycle of the PWM output
+         * 
+         * @param dutycycle 
+         */
         void setDutyCycle(uint8_t dutycycle);
+
+        /**
+         * @brief Sets the characteristics of the characteristics register for PWM operation
+         * 
+         * @param fanspinuptime 
+         * @param pwmfreq 
+         */
         void setCharacteristics(fanspinuptime_t fanspinuptime, pwmfreq_t pwmfreq);
+
+        /**
+         * @brief Retrieves the current characteristics for PWM operation
+         * 
+         */
         void getCharacteristics();
+
+        /**
+         * @brief Reading the Configuration 2 Register
+         * 
+         * @return uint8_t* 
+         */
         uint8_t *getConfig2Reg();
+
+        /**
+         * @brief Set the Configuration 2 Register
+         * 
+         * @param config 
+         */
         void setConfig2Reg(uint8_t config);
 };
 
