@@ -22,12 +22,12 @@ ADXL312::~ADXL312(){}
  * @param msg 
  * @param numBytes
  */
-void ADXL312::ADXL312write(uint8_t *msg, uint8_t numBytes)
+void ADXL312::ADXL312write(uint8_t *cmd, uint8_t numBytes)
 {
     Wire.beginTransmission(ADXL312_I2C_ADDR);
     for(uint8_t i=0; i<numBytes;i++)
     {
-        Wire.write(msg[i]);
+        Wire.write(cmd[i]);
     }
     Wire.endTransmission(false);
 }

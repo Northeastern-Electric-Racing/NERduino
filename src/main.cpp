@@ -12,7 +12,8 @@ void setup() {
   
 }
 
-void loop() {
+void loop()
+{
   
   XYZData_t xyzbuf[16];
   nerd.getADXLdata(xyzbuf);
@@ -27,7 +28,7 @@ void loop() {
     Serial.print("\t");
     Serial.println();
   }
-  
+ 
   Serial.println("cycle...");
 
   delay(500);
