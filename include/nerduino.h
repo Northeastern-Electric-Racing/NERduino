@@ -1,3 +1,9 @@
+/**
+ * @file nerduino.h
+ * @author Nick DePatie
+ * @brief 
+ * @date 2022-03-07
+ */
 #ifndef NERDUINO_H
 #define NERDUINO_H
 

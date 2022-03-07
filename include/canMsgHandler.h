@@ -1,3 +1,9 @@
+/**
+ * @file canMsgHandler.h
+ * @author Nick DePatie
+ * @brief 
+ * @date 2022-03-07
+ */
 #ifndef CANMSGHANDLER_H
 #define CANMSGHANDLER_H
 
@@ -20,20 +26,43 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
  * CAN Addresses
  */
 
+/**
+ * @brief Specifies the locations of the CAN addresses on the EEPROM
+ */
+enum
+{
+    BMSSHUTDOWN,            
+    BMSDTCSTATUS,
+    SET_INVERTER,
+    SET_CARDIRECTION,
+    SET_BRAKELIGHT,
+    ERR_BRAKESWITCH,
+    ERR_PEDALSENSOR,
+    CARACCELERATION,
+    BRAKEFLUIDPRESSURE,
+    COOLINGFLOWRATE,
+    GPSDATA,
+    DIFFTEMP
+};
+
+/**
+ * @brief Contains all CAN addresses saved in the EEPROM
+ * @note MUST BE INITIALIZED BEFORE NORMAL OPERATION
+ */
 struct
 {
-    uint8_t BMSSHUTDOWN;
-    uint8_t BMSDTCSTATUS;
-    uint8_t SET_INVERTER;
-    uint8_t SET_CARDIRECTION;
-    uint8_t SET_BRAKELIGHT;
-    uint8_t ERR_BRAKESWITCH;
-    uint8_t ERR_PEDALSENSOR;
-    uint8_t CARACCELERATION;
-    uint8_t BRAKEFLUIDPRESSURE;
-    uint8_t COOLINGFLOWRATE;
-    uint8_t GPSDATA;
-    uint8_t DIFFTEMP;
+    uint8_t BMSSHUTDOWN=0;
+    uint8_t BMSDTCSTATUS=0;
+    uint8_t SET_INVERTER=0;
+    uint8_t SET_CARDIRECTION=0;
+    uint8_t SET_BRAKELIGHT=0;
+    uint8_t ERR_BRAKESWITCH=0;
+    uint8_t ERR_PEDALSENSOR=0;
+    uint8_t CARACCELERATION=0;
+    uint8_t BRAKEFLUIDPRESSURE=0;
+    uint8_t COOLINGFLOWRATE=0;
+    uint8_t GPSDATA=0;
+    uint8_t DIFFTEMP=0;
 } canmsgAddr;
 
 /**
@@ -75,17 +104,50 @@ struct
 #define CANMSG_CHARGER_TO_BMS       0x18EB2440
 #define CANMSG_BMS_TO_CHARGER       0x18E54024
 
-/**************************************************/
+/*******************************************************************/
 /**
  * Prototype Function
  */
 
-int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf); 
+/**
+ * @brief Sends CAN message
+ * 
+ * @param id 
+ * @param len 
+ * @param buf 
+ * @return int 
+ */
+int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf);
+
+/**
+ * @brief Processes all CAN messages
+ * @note  ID filtering should happen beforehand, maybe add relevent ID's to each .cpp file?
+ * 
+ * @param msg 
+ */
 void incomingCANCallback(const CAN_message_t &msg);
+
+/**
+ * @brief Initializes a CAN object for whichever line we are choosing
+ * 
+ * @param canLine   which CAN transceiver to use we want to use = NOT currently being used, we will probably need this eventually if we need to broadcast at different rates
+ */
 void initializeCAN(uint8_t canLine);
+
+/**
+ * @brief Reads in all EEPROM values and initializes the canAddr's struct
+ * 
+ */
 void readEEPROMAddrs();
+
+/**
+ * @brief Configures the EEPROM address of the CAN message specified by the first index of the message to the address value specified by the second index of the message
+ * 
+ * @param msg
+ */
 void canHandler_CANMSG_CONFIGUREADDR(const CAN_message_t &msg);
 
+/***********************************************************************************/
 /**
  * @brief CAN Message Handle Commands
  * __attribute__((weak)) indicates that if the compiler doesn't find any other function with this same name, then it will default to these which just do nothing

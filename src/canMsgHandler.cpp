@@ -2,11 +2,6 @@
 
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan;
 
-/**
- * @brief Initializes a CAN object for whichever line we are choosing
- * 
- * @param canLine   which CAN transceiver to use we want to use = NOT currently being used, we will probably need this eventually if we need to broadcast at different rates
- */
 void initializeCAN(uint8_t canLine)
 {
     myCan.begin(); // needed to initialize the CAN object (must be first method called)
@@ -19,14 +14,7 @@ void initializeCAN(uint8_t canLine)
     myCan.mailboxStatus(); // prints out mailbox config information
 }
 
-/**
- * @brief Sends CAN message
- * 
- * @param id 
- * @param len 
- * @param buf 
- * @return int 
- */
+
 int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf)
 {
 CAN_message_t msg;
@@ -50,32 +38,24 @@ uint8_t *buf1;
 }
 
 void canHandler_CANMSG_CONFIGUREADDR(const CAN_message_t &msg){
-
-  //Need to figure out the contents of the command
-    //for(uint8_t i=0; i<NUM_CONFIGURABLECANMSG; i++)
-    //{
-     //   EEPROM.write(i,msg.buf[i]);
-    //}
-  //EEPROM.write(LED_pin_location, configmsg[0]);         //reconfigure EEPROM values
-  //EEPROM.write(sensor_param_location, configmsg[1]);
+    EEPROM.write(msg.buf[0],msg.buf[1]);
     readEEPROMAddrs();
-
 }
 
 void readEEPROMAddrs()
 {
-    canmsgAddr.BMSSHUTDOWN = EEPROM.read(0);
-    canmsgAddr.BMSDTCSTATUS = EEPROM.read(1);
-    canmsgAddr.SET_INVERTER = EEPROM.read(2);
-    canmsgAddr.SET_CARDIRECTION = EEPROM.read(3);
-    canmsgAddr.SET_BRAKELIGHT = EEPROM.read(4);
-    canmsgAddr.ERR_BRAKESWITCH = EEPROM.read(5);
-    canmsgAddr.ERR_PEDALSENSOR = EEPROM.read(6);
-    canmsgAddr.CARACCELERATION = EEPROM.read(7);
-    canmsgAddr.BRAKEFLUIDPRESSURE = EEPROM.read(8);
-    canmsgAddr.COOLINGFLOWRATE = EEPROM.read(9);
-    canmsgAddr.GPSDATA = EEPROM.read(10);
-    canmsgAddr.DIFFTEMP = EEPROM.read(11);
+    canmsgAddr.BMSSHUTDOWN = EEPROM.read(BMSSHUTDOWN);
+    canmsgAddr.BMSDTCSTATUS = EEPROM.read(BMSDTCSTATUS);
+    canmsgAddr.SET_INVERTER = EEPROM.read(SET_INVERTER);
+    canmsgAddr.SET_CARDIRECTION = EEPROM.read(SET_CARDIRECTION);
+    canmsgAddr.SET_BRAKELIGHT = EEPROM.read(SET_BRAKELIGHT);
+    canmsgAddr.ERR_BRAKESWITCH = EEPROM.read(ERR_BRAKESWITCH);
+    canmsgAddr.ERR_PEDALSENSOR = EEPROM.read(ERR_PEDALSENSOR);
+    canmsgAddr.CARACCELERATION = EEPROM.read(CARACCELERATION);
+    canmsgAddr.BRAKEFLUIDPRESSURE = EEPROM.read(BRAKEFLUIDPRESSURE);
+    canmsgAddr.COOLINGFLOWRATE = EEPROM.read(COOLINGFLOWRATE);
+    canmsgAddr.GPSDATA = EEPROM.read(GPSDATA);
+    canmsgAddr.DIFFTEMP = EEPROM.read(DIFFTEMP);
 }
 
 /**

@@ -1,3 +1,9 @@
+/**
+ * @file adxl312.h
+ * @author Nick DePatie
+ * @brief 
+ * @date 2022-03-07
+ */
 #ifndef ADXL312_H
 #define ADXL312_h
 
