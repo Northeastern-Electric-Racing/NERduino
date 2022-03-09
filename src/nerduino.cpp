@@ -30,6 +30,5 @@ void nerduino::getADXLdata(XYZData_t *xyzbuf)
         xyzbuf[i].ZData.rawdata[1] = msg[5];
         delay(5);
     }
-    
 }
 

@@ -68,6 +68,23 @@ class AMC6821
 {
     private:
         /**
+         * @brief characteristics register bitfield
+         * 
+         */
+        union
+        {
+            uint8_t *msg;
+
+            struct
+            {
+                uint8_t fanspinup_enable        :1;
+                uint8_t reserved                :1;
+                pwmfreq_t pwmfreq               :3;
+                fanspinuptime_t fanspinuptime   :3;
+            } bitfieldmsg;
+        }characteristicsmsg;
+
+        /**
          * @brief Writing to the local I2C bus with the address of the AMC6821
          * 
          * @param cmd 
@@ -85,22 +102,7 @@ class AMC6821
          */
         bool AMC6821read(uint8_t *msg,uint8_t numBytes);
 
-        /**
-         * @brief characteristics register bitfield
-         * 
-         */
-        union
-        {
-            uint8_t *msg;
 
-            struct
-            {
-                uint8_t fanspinup_enable        :1;
-                uint8_t reserved                :1;
-                pwmfreq_t pwmfreq               :3;
-                fanspinuptime_t fanspinuptime   :3;
-            } bitfieldmsg;
-        }characteristicsmsg;
 
     public:
         /**

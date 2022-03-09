@@ -2,6 +2,10 @@
  * @file canMsgHandler.h
  * @author Nick DePatie
  * @brief 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   CAN Node must be initialized externally by setting the desired CAN ID's into the EEPROM before use
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * 
  * @date 2022-03-07
  */
 #ifndef CANMSGHANDLER_H
@@ -51,19 +55,19 @@ enum
  */
 struct
 {
-    uint8_t BMSSHUTDOWN=0;
-    uint8_t BMSDTCSTATUS=0;
-    uint8_t SET_INVERTER=0;
-    uint8_t SET_CARDIRECTION=0;
-    uint8_t SET_BRAKELIGHT=0;
-    uint8_t ERR_BRAKESWITCH=0;
-    uint8_t ERR_PEDALSENSOR=0;
-    uint8_t CARACCELERATION=0;
-    uint8_t BRAKEFLUIDPRESSURE=0;
-    uint8_t COOLINGFLOWRATE=0;
-    uint8_t GPSDATA=0;
-    uint8_t DIFFTEMP=0;
-} canmsgAddr;
+    uint8_t BMSSHUTDOWN;
+    uint8_t BMSDTCSTATUS;
+    uint8_t SET_INVERTER;
+    uint8_t SET_CARDIRECTION;
+    uint8_t SET_BRAKELIGHT;
+    uint8_t ERR_BRAKESWITCH;
+    uint8_t ERR_PEDALSENSOR;
+    uint8_t CARACCELERATION;
+    uint8_t BRAKEFLUIDPRESSURE;
+    uint8_t COOLINGFLOWRATE;
+    uint8_t GPSDATA;
+    uint8_t DIFFTEMP;
+}canmsgAddr;
 
 /**
  * @brief Configurable CAN messages
@@ -73,6 +77,9 @@ struct
 
 #define NUM_CONFIGURABLECANMSG      12
 
+/**
+ * @brief Old CAN ID's 
+ * 
 #define CANMSG_BMSSHUTDOWN          0x03
 #define CANMSG_BMSDTCSTATUS         0x06
 #define CANMSG_SET_INVERTER         0x101
@@ -85,6 +92,7 @@ struct
 #define CANMSG_COOLINGFLOWRATE      0x302
 #define CANMSG_GPSDATA              0x303
 #define CANMSG_DIFFTEMP             0x304
+*/
 
 //Predefined CAN Messages (cannot change)
 #define CANMSG_CONFIGUREADDR        0x99

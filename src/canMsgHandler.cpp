@@ -73,47 +73,10 @@ void incomingCANCallback(const CAN_message_t &msg)
 
     switch(msg.id)
     {
-        case CANMSG_CONFIGUREADDR:
+        //Predefined CAN ID's
+        case CANMSG_CONFIGUREADDR           :
             canHandler_CANMSG_CONFIGUREADDR(msg);
             break;
-        case CANMSG_BMSSHUTDOWN:
-            canHandler_CANMSG_BMSSHUTDOWN(msg);
-            break;
-        case CANMSG_BMSDTCSTATUS            :
-            canHandler_CANMSG_BMSDTCSTATUS(msg);
-            break;
-        case CANMSG_SET_INVERTER            :
-            canHandler_CANMSG_SET_INVERTER(msg);
-            break;
-        case CANMSG_SET_CARDIRECTION        :
-            canHandler_CANMSG_SET_CARDIRECTION(msg);
-            break;
-        case CANMSG_SET_BRAKELIGHT          :
-            canHandler_CANMSG_SET_BRAKELIGHT(msg);
-            break;
-        case CANMSG_ERR_BRAKESWITCH         :
-            canHandler_CANMSG_ERR_BRAKESWITCH(msg);
-            break;
-        case CANMSG_ERR_PEDALSENSOR         :
-            canHandler_CANMSG_ERR_PEDALSENSOR(msg);
-            break;
-        case CANMSG_CARACCELERATION         :
-            canHandler_CANMSG_CARACCELERATION(msg);
-            break;
-        case CANMSG_BRAKEFLUIDPRESSURE      :
-            canHandler_CANMSG_BRAKEFLUIDPRESSURE(msg);
-            break;
-        case CANMSG_COOLINGFLOWRATE         :
-            canHandler_CANMSG_COOLINGFLOWRATE(msg);
-            break;
-        case CANMSG_GPSDATA                 :
-            canHandler_CANMSG_GPSDATA(msg);
-            break;
-        case CANMSG_DIFFTEMP                :
-            canHandler_CANMSG_DIFFTEMP(msg);
-            break;
-
-        //Predefined CAN ID's
         case CANMSG_ACCELERATIONCTRLINFO    :
             canHandler_CANMSG_ACCELERATIONCTRLINFO(msg);
             break;
@@ -160,7 +123,58 @@ void incomingCANCallback(const CAN_message_t &msg)
             canHandler_CANMSG_BMS_TO_CHARGER(msg);
             break;
         default:
-            Serial.println("CAN ID Invalid!");
+            if (msg.id == canmsgAddr.GPSDATA)
+            {
+                canHandler_CANMSG_GPSDATA(msg);
+            }
+            else if (msg.id == canmsgAddr.CARACCELERATION)
+            {
+                canHandler_CANMSG_CARACCELERATION(msg);
+            }
+            else if (msg.id == canmsgAddr.BRAKEFLUIDPRESSURE)
+            {
+                canHandler_CANMSG_BRAKEFLUIDPRESSURE(msg);
+            }
+            else if (msg.id == canmsgAddr.BMSSHUTDOWN)
+            {
+                canHandler_CANMSG_BMSSHUTDOWN(msg);
+            }
+            else if (msg.id == canmsgAddr.SET_INVERTER)
+            {
+                canHandler_CANMSG_SET_INVERTER(msg);
+            }
+            else if (msg.id == canmsgAddr.COOLINGFLOWRATE)
+            {
+                canHandler_CANMSG_COOLINGFLOWRATE(msg);
+            }
+            else if (msg.id == canmsgAddr.BMSDTCSTATUS)
+            {
+                canHandler_CANMSG_BMSDTCSTATUS(msg);
+            }
+            else if (msg.id == canmsgAddr.SET_CARDIRECTION)
+            {
+                canHandler_CANMSG_SET_CARDIRECTION(msg);
+            }
+            else if (msg.id == canmsgAddr.SET_BRAKELIGHT)
+            {
+                canHandler_CANMSG_SET_BRAKELIGHT(msg);
+            }
+            else if (msg.id == canmsgAddr.ERR_BRAKESWITCH)
+            {
+                canHandler_CANMSG_ERR_BRAKESWITCH(msg);
+            }
+            else if (msg.id == canmsgAddr.ERR_PEDALSENSOR)
+            {
+                canHandler_CANMSG_ERR_PEDALSENSOR(msg);
+            }
+            else if (msg.id == canmsgAddr.DIFFTEMP)
+            {
+                canHandler_CANMSG_DIFFTEMP(msg);
+            }
+            else
+            {
+                Serial.println("CAN ID Invalid!");
+            }
             break;
     }
 }
