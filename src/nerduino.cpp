@@ -13,7 +13,7 @@ nerduino::~nerduino(){}
  * @brief fills a buffer of data type XYZData_t with XYZ accelerometer data
  * @note size of buffer is determined by NUM_ADXL312_SAMPLES macro
  * 
- * @param xyzbuf 
+ * @param xyzbuf
  */
 void nerduino::getADXLdata(XYZData_t *xyzbuf)
 {

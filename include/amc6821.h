@@ -15,7 +15,10 @@
 #define AMC6821_I2C_ADDR                    0x18
 #define AMC6821_DEVID_REG                   0x3D
 #define AMC6821_DEVID                       0x21
+#define AMC6821_CONFIG1_REG                 0x00
 #define AMC6821_CONFIG2_REG                 0x01
+#define AMC6821_CONFIG3_REG                 0x3F
+#define AMC6821_CONFIG4_REG                 0x04
 
 
 /**
@@ -102,6 +105,11 @@ class AMC6821
          */
         bool AMC6821read(uint8_t *msg,uint8_t numBytes);
 
+        /**
+         * @brief Sets the characteristics of the characteristics register for PWM operation
+         * 
+         */
+        void setCharacteristics();
 
 
     public:
@@ -136,19 +144,25 @@ class AMC6821
         void enableFanSpinup(bool fanspinup_toggle);
 
         /**
-         * @brief Sets the duty cycle of the PWM output
-         * 
-         * @param dutycycle 
-         */
-        void setDutyCycle(uint8_t dutycycle);
-
-        /**
-         * @brief Sets the characteristics of the characteristics register for PWM operation
+         * @brief Set the Fan Spin Up Time
          * 
          * @param fanspinuptime 
+         */
+        void setFanSpinUpTime(fanspinuptime_t fanspinuptime);
+
+        /**
+         * @brief Sets the PWM Frequency
+         * 
          * @param pwmfreq 
          */
-        void setCharacteristics(fanspinuptime_t fanspinuptime, pwmfreq_t pwmfreq);
+        void setPWMFreq(pwmfreq_t pwmfreq);
+
+        /**
+         * @brief Sets the duty cycle of the PWM output
+         * 
+         * @param dutycycle
+         */
+        void setDutyCycle(uint8_t dutycycle);
 
         /**
          * @brief Retrieves the current characteristics for PWM operation
@@ -169,6 +183,21 @@ class AMC6821
          * @param config 
          */
         void setConfig2Reg(uint8_t config);
+
+        /**
+         * @brief Resets the registers of the AMC6821
+         * @note Essentially behaves like a soft power cycle
+         * 
+         */
+        void resetChip();
+
+        /**
+         * @brief Writes to the specified config register the desired config
+         * 
+         * @param configNum 
+         * @param config 
+         */
+        void writeConfig(uint8_t configNum, uint8_t config);
 };
 
 #endif

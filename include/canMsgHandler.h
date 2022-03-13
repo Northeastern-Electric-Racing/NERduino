@@ -36,18 +36,29 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
 enum
 {
     BMSSHUTDOWN,            
-    BMSDTCSTATUS,
-    SET_INVERTER,
-    SET_CARDIRECTION,
-    SET_BRAKELIGHT,
-    ERR_BRAKESWITCH,
-    ERR_PEDALSENSOR,
-    CARACCELERATION,
-    BRAKEFLUIDPRESSURE,
-    COOLINGFLOWRATE,
-    GPSDATA,
-    DIFFTEMP
+    BMSDTCSTATUS=2,
+    SET_INVERTER=4,
+    SET_CARDIRECTION=6,
+    SET_BRAKELIGHT=8,
+    ERR_BRAKESWITCH=10,
+    ERR_PEDALSENSOR=12,
+    CARACCELERATION=14,
+    BRAKEFLUIDPRESSURE=16,
+    COOLINGFLOWRATE=18,
+    GPSDATA=20,
+    DIFFTEMP=22
 };
+
+/**
+ * @brief 
+ * 
+ */
+typedef union
+{
+    uint8_t rawEEPROM[2];
+    uint16_t canID;
+}canID_t;
+
 
 /**
  * @brief Contains all CAN addresses saved in the EEPROM
@@ -55,19 +66,19 @@ enum
  */
 struct
 {
-    uint8_t BMSSHUTDOWN;
-    uint8_t BMSDTCSTATUS;
-    uint8_t SET_INVERTER;
-    uint8_t SET_CARDIRECTION;
-    uint8_t SET_BRAKELIGHT;
-    uint8_t ERR_BRAKESWITCH;
-    uint8_t ERR_PEDALSENSOR;
-    uint8_t CARACCELERATION;
-    uint8_t BRAKEFLUIDPRESSURE;
-    uint8_t COOLINGFLOWRATE;
-    uint8_t GPSDATA;
-    uint8_t DIFFTEMP;
-}canmsgAddr;
+    canID_t BMSSHUTDOWN;
+    canID_t BMSDTCSTATUS;
+    canID_t SET_INVERTER;
+    canID_t SET_CARDIRECTION;
+    canID_t SET_BRAKELIGHT;
+    canID_t ERR_BRAKESWITCH;
+    canID_t ERR_PEDALSENSOR;
+    canID_t CARACCELERATION;
+    canID_t BRAKEFLUIDPRESSURE;
+    canID_t COOLINGFLOWRATE;
+    canID_t GPSDATA;
+    canID_t DIFFTEMP;
+}canIDs;
 
 /**
  * @brief Configurable CAN messages
@@ -109,8 +120,8 @@ struct
 #define CANMSG_BMSSTATUS2           0x6B1
 #define CANMSG_BMSCHARGEDISCHARGE   0x6B0
 #define CANMSG_MC_BMS_INTEGRATION   0x202
-#define CANMSG_CHARGER_TO_BMS       0x18EB2440
-#define CANMSG_BMS_TO_CHARGER       0x18E54024
+//#define CANMSG_CHARGER_TO_BMS       0x18EB2440        //not used in nodes
+//#define CANMSG_BMS_TO_CHARGER       0x18E54024
 
 /*******************************************************************/
 /**
@@ -190,8 +201,6 @@ void canHandler_CANMSG_MOTORTORQUETIMER     (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSSTATUS2           (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_message_t &msg);
 void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg);
-void canHandler_CANMSG_CHARGER_TO_BMS       (const CAN_message_t &msg);
-void canHandler_CANMSG_BMS_TO_CHARGER       (const CAN_message_t &msg);
 
 //For SD logging in the TCU, isn't used anywhere else
 bool SDWrite();

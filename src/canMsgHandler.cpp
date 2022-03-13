@@ -44,26 +44,44 @@ void canHandler_CANMSG_CONFIGUREADDR(const CAN_message_t &msg){
 
 void readEEPROMAddrs()
 {
-    canmsgAddr.BMSSHUTDOWN = EEPROM.read(BMSSHUTDOWN);
-    canmsgAddr.BMSDTCSTATUS = EEPROM.read(BMSDTCSTATUS);
-    canmsgAddr.SET_INVERTER = EEPROM.read(SET_INVERTER);
-    canmsgAddr.SET_CARDIRECTION = EEPROM.read(SET_CARDIRECTION);
-    canmsgAddr.SET_BRAKELIGHT = EEPROM.read(SET_BRAKELIGHT);
-    canmsgAddr.ERR_BRAKESWITCH = EEPROM.read(ERR_BRAKESWITCH);
-    canmsgAddr.ERR_PEDALSENSOR = EEPROM.read(ERR_PEDALSENSOR);
-    canmsgAddr.CARACCELERATION = EEPROM.read(CARACCELERATION);
-    canmsgAddr.BRAKEFLUIDPRESSURE = EEPROM.read(BRAKEFLUIDPRESSURE);
-    canmsgAddr.COOLINGFLOWRATE = EEPROM.read(COOLINGFLOWRATE);
-    canmsgAddr.GPSDATA = EEPROM.read(GPSDATA);
-    canmsgAddr.DIFFTEMP = EEPROM.read(DIFFTEMP);
+    canIDs.BMSSHUTDOWN.rawEEPROM[0] = EEPROM.read(BMSSHUTDOWN);
+    canIDs.BMSSHUTDOWN.rawEEPROM[1] = EEPROM.read(BMSSHUTDOWN+1);
+
+    canIDs.BMSDTCSTATUS.rawEEPROM[0] = EEPROM.read(BMSDTCSTATUS);
+    canIDs.BMSDTCSTATUS.rawEEPROM[1] = EEPROM.read(BMSDTCSTATUS+1);
+
+    canIDs.SET_INVERTER.rawEEPROM[0] = EEPROM.read(SET_INVERTER);
+    canIDs.SET_INVERTER.rawEEPROM[1] = EEPROM.read(SET_INVERTER+1);
+
+    canIDs.SET_CARDIRECTION.rawEEPROM[0] = EEPROM.read(SET_CARDIRECTION);
+    canIDs.SET_CARDIRECTION.rawEEPROM[1] = EEPROM.read(SET_CARDIRECTION+1);
+
+    canIDs.SET_BRAKELIGHT.rawEEPROM[0] = EEPROM.read(SET_BRAKELIGHT);
+    canIDs.SET_BRAKELIGHT.rawEEPROM[1] = EEPROM.read(SET_BRAKELIGHT+1);
+
+    canIDs.ERR_BRAKESWITCH.rawEEPROM[0] = EEPROM.read(ERR_BRAKESWITCH);
+    canIDs.ERR_BRAKESWITCH.rawEEPROM[1] = EEPROM.read(ERR_BRAKESWITCH+1);
+
+    canIDs.ERR_PEDALSENSOR.rawEEPROM[0] = EEPROM.read(ERR_PEDALSENSOR);
+    canIDs.ERR_PEDALSENSOR.rawEEPROM[1] = EEPROM.read(ERR_PEDALSENSOR+1);
+
+    canIDs.CARACCELERATION.rawEEPROM[0] = EEPROM.read(CARACCELERATION);
+    canIDs.CARACCELERATION.rawEEPROM[1] = EEPROM.read(CARACCELERATION+1);
+
+    canIDs.BRAKEFLUIDPRESSURE.rawEEPROM[0] = EEPROM.read(BRAKEFLUIDPRESSURE);
+    canIDs.BRAKEFLUIDPRESSURE.rawEEPROM[1] = EEPROM.read(BRAKEFLUIDPRESSURE+1);
+
+    canIDs.COOLINGFLOWRATE.rawEEPROM[0] = EEPROM.read(COOLINGFLOWRATE);
+    canIDs.COOLINGFLOWRATE.rawEEPROM[1] = EEPROM.read(COOLINGFLOWRATE+1);
+
+    canIDs.GPSDATA.rawEEPROM[0] = EEPROM.read(GPSDATA);
+    canIDs.GPSDATA.rawEEPROM[1] = EEPROM.read(GPSDATA+1);
+    
+    canIDs.DIFFTEMP.rawEEPROM[0] = EEPROM.read(DIFFTEMP);
+    canIDs.DIFFTEMP.rawEEPROM[1] = EEPROM.read(DIFFTEMP+1);
 }
 
-/**
- * @brief Processes all CAN messages
- * @note  ID filtering should happen beforehand, maybe add relevent ID's to each .cpp file?
- * 
- * @param msg 
- */
+
 void incomingCANCallback(const CAN_message_t &msg)
 {
     if(!SDWrite())
@@ -71,9 +89,12 @@ void incomingCANCallback(const CAN_message_t &msg)
         Serial.println("Error logging to SD Card!");
     }
 
+    /**
+     * Using a switch statement to rule out set CAN IDs first, and then using if
+     * elses within the default case because the switch statement is more efficient
+     */
     switch(msg.id)
-    {
-        //Predefined CAN ID's
+    {                                                   //using a switch statement for set CAN IDs
         case CANMSG_CONFIGUREADDR           :
             canHandler_CANMSG_CONFIGUREADDR(msg);
             break;
@@ -116,58 +137,52 @@ void incomingCANCallback(const CAN_message_t &msg)
         case CANMSG_MC_BMS_INTEGRATION      :
             canHandler_CANMSG_MC_BMS_INTEGRATION(msg);
             break;
-        case CANMSG_CHARGER_TO_BMS          :
-            canHandler_CANMSG_CHARGER_TO_BMS(msg);
-            break;
-        case CANMSG_BMS_TO_CHARGER          :
-            canHandler_CANMSG_BMS_TO_CHARGER(msg);
-            break;
-        default:
-            if (msg.id == canmsgAddr.GPSDATA)
+        default:                                        //using if statements for configurable CAN IDs
+            if (msg.id == canIDs.GPSDATA.canID)
             {
                 canHandler_CANMSG_GPSDATA(msg);
             }
-            else if (msg.id == canmsgAddr.CARACCELERATION)
+            else if (msg.id == canIDs.CARACCELERATION.canID)
             {
                 canHandler_CANMSG_CARACCELERATION(msg);
             }
-            else if (msg.id == canmsgAddr.BRAKEFLUIDPRESSURE)
+            else if (msg.id == canIDs.BRAKEFLUIDPRESSURE.canID)
             {
                 canHandler_CANMSG_BRAKEFLUIDPRESSURE(msg);
             }
-            else if (msg.id == canmsgAddr.BMSSHUTDOWN)
+            else if (msg.id == canIDs.BMSSHUTDOWN.canID)
             {
                 canHandler_CANMSG_BMSSHUTDOWN(msg);
             }
-            else if (msg.id == canmsgAddr.SET_INVERTER)
+            else if (msg.id == canIDs.SET_INVERTER.canID)
             {
                 canHandler_CANMSG_SET_INVERTER(msg);
             }
-            else if (msg.id == canmsgAddr.COOLINGFLOWRATE)
+            else if (msg.id == canIDs.COOLINGFLOWRATE.canID)
             {
                 canHandler_CANMSG_COOLINGFLOWRATE(msg);
             }
-            else if (msg.id == canmsgAddr.BMSDTCSTATUS)
+            else if (msg.id == canIDs.BMSDTCSTATUS.canID)
             {
                 canHandler_CANMSG_BMSDTCSTATUS(msg);
             }
-            else if (msg.id == canmsgAddr.SET_CARDIRECTION)
+            else if (msg.id == canIDs.SET_CARDIRECTION.canID)
             {
                 canHandler_CANMSG_SET_CARDIRECTION(msg);
             }
-            else if (msg.id == canmsgAddr.SET_BRAKELIGHT)
+            else if (msg.id == canIDs.SET_BRAKELIGHT.canID)
             {
                 canHandler_CANMSG_SET_BRAKELIGHT(msg);
             }
-            else if (msg.id == canmsgAddr.ERR_BRAKESWITCH)
+            else if (msg.id == canIDs.ERR_BRAKESWITCH.canID)
             {
                 canHandler_CANMSG_ERR_BRAKESWITCH(msg);
             }
-            else if (msg.id == canmsgAddr.ERR_PEDALSENSOR)
+            else if (msg.id == canIDs.ERR_PEDALSENSOR.canID)
             {
                 canHandler_CANMSG_ERR_PEDALSENSOR(msg);
             }
-            else if (msg.id == canmsgAddr.DIFFTEMP)
+            else if (msg.id == canIDs.DIFFTEMP.canID)
             {
                 canHandler_CANMSG_DIFFTEMP(msg);
             }
@@ -214,8 +229,7 @@ __attribute__((weak)) void canHandler_CANMSG_MOTORTORQUETIMER     (const CAN_mes
 __attribute__((weak)) void canHandler_CANMSG_BMSSTATUS2           (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg){return;}
-__attribute__((weak)) void canHandler_CANMSG_CHARGER_TO_BMS       (const CAN_message_t &msg){return;}
-__attribute__((weak)) void canHandler_CANMSG_BMS_TO_CHARGER       (const CAN_message_t &msg){return;}
 
 //For SD logging in the TCU, isn't used anywhere else
 __attribute__((weak)) bool SDWrite(){return true;}
+

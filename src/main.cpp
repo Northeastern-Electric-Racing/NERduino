@@ -14,7 +14,6 @@ void setup() {
 
 void loop()
 {
-  
   XYZData_t xyzbuf[16];
   nerd.getADXLdata(xyzbuf);
 
