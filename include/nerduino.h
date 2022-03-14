@@ -49,6 +49,8 @@
 /**********************************************************************************/
 //Message Structures
 #define NUM_ADXL312_SAMPLES 16
+
+
 /**
  * @brief This is the message type for retrieving XYZ data as a buffer
  * 
@@ -74,6 +76,7 @@ typedef struct
     }ZData;
     
 }XYZData_t;
+
 
 /*********************************************/
 

@@ -54,42 +54,35 @@ uint16_t SHT30::readStatusReg()                       //Reads the 16-bit status 
     return status;
 }
 
-/*
 
 void SHT30::reset(void)                                    //Allows for a soft reset upon start up
 {
-    uint8_t msg[2];
-    msg[0] = SHT30_SOFTRESET>>8;
-    msg[1] = SHT30_SOFTRESET & 0x00FF;
-    SHT30write(msg, 2);
-    Serial.println("Successful reset");
+    cmd_t cmd = {.cmdVal = SHT30_SOFTRESET};
+    SHT30write(&cmd, 2);
 }
 
 
 bool SHT30::isHeaterEnabled()                             //Check if the heating element is turned on
 {
-uint16_t regVal = readStatusReg();
-return (bool) bitRead(regVal, SHT30_REG_HEATER_BIT);
+    uint16_t regVal = readStatusReg();
+    return (bool) bitRead(regVal, SHT30_REG_HEATER_BIT);
 }
 
 
 void SHT30::enableHeater(bool h)                                 //Allows for heating element control, bool = true->enables, false->disable. Clears built up condensation
 {
-    uint8_t msg[2] = (h ? {SHT30_HEATEREN>>8 , SHT30_HEATEREN & 0x00FF} : {SHT30_HEATERDIS>>8 , SHT30_HEATERDIS & 0x00FF});
-
-    SHT30write(msg, 2);
-
+    cmd_t cmd = {.cmdVal = h ? SHT30_HEATEREN : SHT30_HEATERDIS};
+    SHT30write(&cmd, 2);
 }
 
    
 bool SHT30::getTempHumid(void)                             //Public function to start a measurement and print values
 {
-    uint8_t cmd[2];
-    cmd[0] = SHT30_START_CMD_WCS >> 8; 
-    cmd[1] = SHT30_START_CMD_WCS & 0xFF;
+    cmd_t cmd = {.cmdVal = SHT30_START_CMD_WCS};
     uint8_t msg[6];
-    SHT30write(cmd, 2);
+    SHT30write(&cmd, 2);
     SHT30read(msg, 6);
+
     float cTemp = ((((msg[0] * 256.0) + msg[1]) * 175) / 65535.0) - 45;
     float fTemp = (cTemp * 1.8) + 32;
     float humidity = ((((msg[3] * 256.0) + msg[4]) * 100) / 65535.0);
@@ -104,4 +97,3 @@ bool SHT30::getTempHumid(void)                             //Public function to 
     Serial.println(" %RH");
     return true;
 }
-*/
