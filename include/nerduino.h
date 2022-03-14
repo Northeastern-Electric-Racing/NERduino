@@ -74,7 +74,7 @@ typedef struct
         uint8_t rawdata[2];
         int16_t data;
     }ZData;
-    
+
 }XYZData_t;
 
 

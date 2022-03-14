@@ -1,3 +1,8 @@
+/**
+ * @file sht30.h
+ * @author Nick DePatie
+ * @brief 
+ */
 #ifndef SHT30_H
 #define SHT30_H
 
@@ -21,7 +26,6 @@
 #define SHT30_HEATERDIS                0x3066   //Heater Disable
 
 #define SHT30_REG_HEATER_BIT           0x0d     //Status Register Heater Bit
-
 
 
 class SHT30
@@ -75,13 +79,34 @@ class SHT30
          */
         uint16_t readStatusReg();
 
-        void reset(void);                                    //Allows for a soft reset upon start up
+        /**
+         * @brief Allows for a soft reset upon start up
+         * 
+         */
+        void reset(void);
 
-        bool isHeaterEnabled();                             //Check if the heating element is turned on
+        /**
+         * @brief Check if the heating element is turned on
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool isHeaterEnabled();
 
-        void enableHeater(bool h);                                 //Allows for heating element control, bool = true->enables, false->disable. Clears built up condensation
+        /**
+         * @brief Allows for heating element control, bool = true->enables, false->disable. Clears built up condensation
+         * 
+         * @param h 
+         */
+        void enableHeater(bool h);
  
-        bool getTempHumid(void);                             //Public function to start a measurement and print values
+        /**
+         * @brief Retrieve humidity reading
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool getTempHumid(void);
 
 };
 
