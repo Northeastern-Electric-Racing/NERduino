@@ -82,7 +82,7 @@ uint8_t *AMC6821::getConfig2Reg()
     uint8_t cmd[1] = {AMC6821_CONFIG2_REG};
     uint8_t msg[1];
     AMC6821write(cmd,1);
-    AMC6821read(msg,1))
+    AMC6821read(msg,1));
     {
         return msg;
     }
