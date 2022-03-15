@@ -20,17 +20,17 @@ nerduino object
 └───public:
     |───nerduino()      # calls Wire.begin() and Serial.begin(9600)
     |───~nerduino()
-    |───getADXLdata(XYZData_t *xyzbuf)  # fills an XYZDATA_t buffer with data of size NUM_ADXL312_SAMPLES (Defined in nerduino.h)
+    |───getADXLdata(XYZData_t *xyzbuf)  # fills an XYZDATA_t buffer
     └───...more to be added
 ```
 
 ```
 CAN Functions (currently not bound to an object)
 |
-|───sendMessage(uint32_t id, uint8_t len, const uint8_t *buf)   # sends a CAN Message with the given parameters
+|───sendMessage(uint32_t id, uint8_t len, const uint8_t *buf)   # sends a CAN Message w/ params
 |───initializeCAN(uint8_t canLine)      # initializes the CAN functionality of node
 |
-|───canHandler_CANMSG_BMSSHUTDOWN(const CAN_message_t &msg)         # specific CAN handle command, implementation of CAN handle functions explained in section on CAN Message Handling
+|───canHandler_CANMSG_BMSSHUTDOWN(const CAN_message_t &msg)         # specific CAN handle commands
 |───...
 |───canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg)
 ```
