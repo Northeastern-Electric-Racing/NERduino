@@ -49,7 +49,7 @@
 /**********************************************************************************/
 //Message Structures
 #define NUM_ADXL312_SAMPLES 16
-
+#define NUM_SHT30_SAMPLES   16
 
 /**
  * @brief This is the message type for retrieving XYZ data as a buffer
@@ -57,25 +57,47 @@
  */
 typedef struct
 {
-    union XData_t
+    union
     {
         uint8_t rawdata[2];
         int16_t data;
     }XData;
 
-    union YData_t
+    union
     {
         uint8_t rawdata[2];
         int16_t data;
     }YData;
 
-    union ZData_t
+    union
     {
         uint8_t rawdata[2];
         int16_t data;
     }ZData;
 
 }XYZData_t;
+
+/**
+ * @brief  This is the message type for retrieving humidity data as a buffer
+ * 
+ */
+typedef struct
+{
+    union
+    {
+        uint8_t rawdata[2];
+        int16_t data;
+    }TempData;
+
+    union
+    {
+        uint8_t rawdata[2];
+        int16_t data;
+    }HumidData;
+
+}HumidData_t;
+
+
 
 
 /*********************************************/
@@ -97,7 +119,15 @@ class nerduino
          * 
          * @param xyzbuf 
          */
-        void getADXLdata(XYZData_t *xyzbuf);
+        void getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings);
+
+        /**
+         * @brief fills a buffer of data type HumidData_t with humidity and temperature data
+         * @note size of buffer is determined by NUM_SHT30_SAMPLES macro
+         * 
+         * @param humidbuf 
+         */
+        void getSHTdata(HumidData_t *humidbuf);
 };
 
 /*************************************************/

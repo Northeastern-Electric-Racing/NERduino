@@ -9,16 +9,11 @@ nerduino::nerduino()
 
 nerduino::~nerduino(){}
 
-/**
- * @brief fills a buffer of data type XYZData_t with XYZ accelerometer data
- * @note size of buffer is determined by NUM_ADXL312_SAMPLES macro
- * 
- * @param xyzbuf
- */
-void nerduino::getADXLdata(XYZData_t *xyzbuf)
+
+void nerduino::getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings)
 {
     uint8_t *msg = new uint8_t[6];
-    for(uint8_t i=0;i<NUM_ADXL312_SAMPLES;i++)
+    for(uint8_t i=0;i<numReadings;i++)
     {
         adxl312.getXYZ(msg);
 
@@ -32,3 +27,8 @@ void nerduino::getADXLdata(XYZData_t *xyzbuf)
     }
 }
 
+
+void nerduino::getSHTdata(HumidData_t *humidbuf)
+{
+    sht30.getTempHumid();
+}

@@ -2,7 +2,6 @@
  * @file amc6821.h
  * @author Nick DePatie
  * @brief 
- * @version 0.1
  * @date 2022-03-14
  */
 #ifndef AMC6821_H
