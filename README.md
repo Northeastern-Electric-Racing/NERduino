@@ -79,7 +79,7 @@ void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg)
 
 A small, 3 axis accelerometer that we are using to get acceleration data. Currently, the acceleration data is being retrieved through ```getADXLdata(XYZData_t *xyzbuf)``` which retrieves the XYZ register data through the ADXL specific reading and writing code.
 
-##### XYZData_t Data type for ADXL312
+##### *XYZData_t* Data type for ADXL312
 ```
 XYZData_t
 |───.XData.data  # Each of these are signed 16 bit integers with axis data
@@ -93,7 +93,7 @@ XYZData_t
 
 A small temperature and humidity sensor we are using to get the humidity and temperature of each node. The data can be accessed through ```getSHTdata(HumidData_t *humidbuf)```*(WIP)* which retrieves a buffer of humidity and temperature data through SHT specific read and write commands.
 
-##### HumidData_t Data type for SHT30
+##### *HumidData_t* Data type for SHT30
 ```
 HumidData_t
 |───.tempC       # Ambient Temp in Celsius float
