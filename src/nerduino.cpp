@@ -1,16 +1,28 @@
 #include <Arduino.h>
 #include "nerduino.h"
 
-nerduino::nerduino()
+NERDUINO NERduino;
+
+
+NERDUINO::NERDUINO()
 {
     Wire.begin();
     Serial.begin(9600);
 }
 
-nerduino::~nerduino(){}
+
+NERDUINO::~NERDUINO(){}
 
 
-void nerduino::getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings)
+bool NERDUINO::begin()
+{
+    adxl312 = ADXL312();
+    amc6821 = AMC6821();
+    sht30 = SHT30();
+}
+
+
+void NERDUINO::getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings)
 {
     uint8_t *msg = new uint8_t[6];
     for(uint8_t i=0;i<numReadings;i++)
@@ -29,7 +41,7 @@ void nerduino::getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings)
 }
 
 
-void nerduino::getSHTdata(HumidData_t *humidbuf, uint8_t numReadings)
+void NERDUINO::getSHTdata(HumidData_t *humidbuf, uint8_t numReadings)
 {
     uint8_t *msg = new uint8_t[6];
     for(uint8_t i=0;i<numReadings;i++)
@@ -41,19 +53,6 @@ void nerduino::getSHTdata(HumidData_t *humidbuf, uint8_t numReadings)
         humidbuf[i].HumidData.rawdata[0] = msg[4];
         humidbuf[i].HumidData.rawdata[1] = msg[3];
     }
-    float cTemp = ((((msg[0] * 256.0) + msg[1]) * 175) / 65535.0) - 45;
-    float fTemp = (cTemp * 1.8) + 32;
-    float humidity = ((((msg[3] * 256.0) + msg[4]) * 100) / 65535.0);
-    Serial.print("Temperature C: ");
-    Serial.print(cTemp);
-    Serial.println(" C");
-    Serial.print("Temperature F: ");
-    Serial.print(fTemp);
-    Serial.println(" F");
-    Serial.print("Relative Humidity: ");
-    Serial.print(humidity);
-    Serial.println(" %RH");
-    Serial.println("~~~~~~~~~~~");
 
     delete[] msg;
 }

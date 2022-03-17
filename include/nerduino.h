@@ -96,15 +96,15 @@ typedef struct
         int16_t data;
     }HumidData;
 
-    float tempF = -49 + (315 * (TempData.data / (65536 - 1))); 
-    float tempC = -45 + (175 * (TempData.data / (65536 - 1)));
-    float relativeHumidity = 100 * (HumidData.data / (65536 - 1));
+    float tempF = -49 + (315 * TempData.data / 65535.0); 
+    float tempC = -45 + (175 * TempData.data / 65535.0);
+    float relHumid = 100 * HumidData.data / 65535.0;
 
 }HumidData_t;
 
 /*********************************************/
 
-class nerduino
+class NERDUINO
 {
     private:
         ADXL312 adxl312;
@@ -112,8 +112,10 @@ class nerduino
         SHT30 sht30;
 
     public:
-        nerduino();
-        ~nerduino();
+        NERDUINO();
+        ~NERDUINO();
+
+        bool begin();
 
         /**
          * @brief fills a buffer of data type XYZData_t with XYZ accelerometer data
@@ -133,6 +135,8 @@ class nerduino
          */
         void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
 };
+
+extern NERDUINO NERduino;
 
 /*************************************************/
 

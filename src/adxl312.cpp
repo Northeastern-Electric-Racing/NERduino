@@ -4,6 +4,7 @@
 
 ADXL312::ADXL312()
 {
+    Serial.println("Initializing ADXL312...");
     if(verifyFunctionality())
     {
         configureForMeasurement();
@@ -67,14 +68,14 @@ bool ADXL312::verifyFunctionality()
 void ADXL312::configureForMeasurement()
 {
     uint8_t cmd[2] = {ADXL312_POWER_CTRL_REG, ADXL312_POWER_CTRL_MEASURECMD}; 
-    ADXL312write(cmd, 1);
+    ADXL312write(cmd, 2);
 }
 
 
 void ADXL312::getXYZ(uint8_t *msg)
 {
     uint8_t cmd[1] = {ADXL312_XYZDATA_REG_OFFSET};
-    //while(!isDataReady()){}
+    while(!isDataReady()){}
     ADXL312write(cmd, 1);
     if(ADXL312read(msg, 6))
     {

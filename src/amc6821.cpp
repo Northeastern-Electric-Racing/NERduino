@@ -4,6 +4,7 @@
 
 AMC6821::AMC6821()
 {
+    /*
     if(verifyFunctionality())
     {
         setDutyCycle(0);
@@ -13,6 +14,7 @@ AMC6821::AMC6821()
     }
     Serial.println("~~~~~~~~~~~~~~~~WARNING: Unable to verify functionality of AMC6821~~~~~~~~~~~~~~~~~~~~~~~");
     return;
+    */
 }
 
 

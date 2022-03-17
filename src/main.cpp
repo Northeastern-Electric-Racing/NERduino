@@ -7,19 +7,18 @@ void canHandler_CANMSG_BMSSHUTDOWN(const CAN_message_t &msg)
   Serial.println("Message Received!");
 }
 
-nerduino nerd;
-
 void setup() {
   delay(3000);
   Serial.print("Uh");
+  NERduino.begin();
 }
 
 void loop()
 {
   XYZData_t xyzbuf[NUM_ADXL312_SAMPLES];
-  HumidData_t humidbuf[NUM_SHT30_SAMPLES];
+  HumidData_t humidbuf[3];
 
-  nerd.getADXLdata(xyzbuf, NUM_ADXL312_SAMPLES);
+  NERduino.getADXLdata(xyzbuf, NUM_ADXL312_SAMPLES);
   Serial.println("Accelerometer Data:");
   for(uint8_t i=0; i<NUM_ADXL312_SAMPLES; i++)
   {
@@ -33,7 +32,7 @@ void loop()
   }
  
   
-  nerd.getSHTdata(humidbuf,3);
+  NERduino.getSHTdata(humidbuf,3);
   Serial.println("Humidity Data:");
   for(uint8_t i=0; i<3; i++)
   {
@@ -44,7 +43,7 @@ void loop()
     Serial.print(humidbuf[i].tempF);
     Serial.println(" F");
     Serial.print("Relative Humidity: ");
-    Serial.print(humidbuf[i].relativeHumidity);
+    Serial.print(humidbuf[i].relHumid);
     Serial.println(" %RH");
   }
 
