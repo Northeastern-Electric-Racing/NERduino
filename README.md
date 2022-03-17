@@ -87,11 +87,6 @@ XYZData_t
 └───.ZData.data
 ```
 
-### AMC6821 PWM Generator
-[AMC6821 Datasheet](https://www.ti.com/lit/ds/symlink/amc6821.pdf?ts=1644706226375&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FAMC6821%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dasc-sens-null-prodfolderdynamic-cpc-pf-google-wwe%2526utm_content%253Dprodfolddynamic%2526ds_k%253DDYNAMIC%2BSEARCH%2BADS%2526DCM%253Dyes%2526gclid%253DCj0KCQiA0p2QBhDvARIsAACSOOPKQVP7tfyxbaC8997ZjeHcQWZiSwAi1yblV-rFrJZ4BQS3xCwo1iYaAjmLEALw_wcB%2526gclsrc%253Daw.ds)
-
-A pulse width modulation chip specifically designed for intelligently controlling fan behavior. In the NERduino, howeveer, all fan-related functions of the chip are ignored, and the chip is solely used for generating a PWM signal. The duty cycle can be set via ```setDutyCycle(uint8_t dutycycle)``` *(WIP)* which sets the PWM Duty Cycle to a value between 0-255. The functionality of this chip may differ per device due to debug flags.
-
 
 ### SHT30 Humidity Sensor
 [SHT30 Datasheet](https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf)
@@ -105,3 +100,9 @@ HumidData_t
 |───.tempF       # Ambient Temp in Fahrenheit float
 └───.relHumid    # Relative Humidity float
 ```
+
+
+### AMC6821 PWM Generator
+[AMC6821 Datasheet](https://www.ti.com/lit/ds/symlink/amc6821.pdf?ts=1644706226375&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FAMC6821%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dasc-sens-null-prodfolderdynamic-cpc-pf-google-wwe%2526utm_content%253Dprodfolddynamic%2526ds_k%253DDYNAMIC%2BSEARCH%2BADS%2526DCM%253Dyes%2526gclid%253DCj0KCQiA0p2QBhDvARIsAACSOOPKQVP7tfyxbaC8997ZjeHcQWZiSwAi1yblV-rFrJZ4BQS3xCwo1iYaAjmLEALw_wcB%2526gclsrc%253Daw.ds)
+
+A pulse width modulation chip specifically designed for intelligently controlling fan behavior. In the NERduino, howeveer, all fan-related functions of the chip are ignored, and the chip is solely used for generating a PWM signal. The duty cycle can be set via ```setDutyCycle(uint8_t dutycycle)``` *(WIP)* which sets the PWM Duty Cycle to a value between 0-255. The functionality of this chip may differ per device due to debug flags.
