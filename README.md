@@ -79,6 +79,13 @@ void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg)
 
 A small, 3 axis accelerometer that we are using to get acceleration data. Currently, the acceleration data is being retrieved through ```getADXLdata(XYZData_t *xyzbuf)``` which retrieves the XYZ register data through the ADXL specific reading and writing code.
 
+##### XYZData_t Data type for ADXL312
+```
+XYZData_t
+|───.XData.data  # Each of these are signed 16 bit integers with axis data
+|───.YData.data
+└───.ZData.data
+```
 
 ### AMC6821 PWM Generator
 [AMC6821 Datasheet](https://www.ti.com/lit/ds/symlink/amc6821.pdf?ts=1644706226375&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FAMC6821%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dasc-sens-null-prodfolderdynamic-cpc-pf-google-wwe%2526utm_content%253Dprodfolddynamic%2526ds_k%253DDYNAMIC%2BSEARCH%2BADS%2526DCM%253Dyes%2526gclid%253DCj0KCQiA0p2QBhDvARIsAACSOOPKQVP7tfyxbaC8997ZjeHcQWZiSwAi1yblV-rFrJZ4BQS3xCwo1iYaAjmLEALw_wcB%2526gclsrc%253Daw.ds)
@@ -90,3 +97,11 @@ A pulse width modulation chip specifically designed for intelligently controllin
 [SHT30 Datasheet](https://www.mouser.com/datasheet/2/682/Sensirion_Humidity_Sensors_SHT3x_Datasheet_digital-971521.pdf)
 
 A small temperature and humidity sensor we are using to get the humidity and temperature of each node. The data can be accessed through ```getSHTdata(HumidData_t *humidbuf)```*(WIP)* which retrieves a buffer of humidity and temperature data through SHT specific read and write commands.
+
+##### HumidData_t Data type for SHT30
+```
+HumidData_t
+|───.tempC       # Ambient Temp in Celsius float
+|───.tempF       # Ambient Temp in Fahrenheit float
+└───.relHumid    # Relative Humidity float
+```
