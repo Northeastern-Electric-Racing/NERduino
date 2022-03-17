@@ -1,5 +1,6 @@
 #include "nerduino.h"
 #include "canMsgHandler.h"
+#include <Arduino.h>
 
 void canHandler_CANMSG_BMSSHUTDOWN(const CAN_message_t &msg)
 {
@@ -9,7 +10,8 @@ void canHandler_CANMSG_BMSSHUTDOWN(const CAN_message_t &msg)
 nerduino nerd;
 
 void setup() {
-
+  delay(3000);
+  Serial.print("Uh");
 }
 
 void loop()
@@ -30,8 +32,21 @@ void loop()
     Serial.println();
   }
  
+  
+  nerd.getSHTdata(humidbuf,3);
   Serial.println("Humidity Data:");
-  nerd.getSHTdata(humidbuf);
+  for(uint8_t i=0; i<3; i++)
+  {
+    Serial.print("Temperature C: ");
+    Serial.print(humidbuf[i].tempC);
+    Serial.println(" C");
+    Serial.print("Temperature F: ");
+    Serial.print(humidbuf[i].tempF);
+    Serial.println(" F");
+    Serial.print("Relative Humidity: ");
+    Serial.print(humidbuf[i].relativeHumidity);
+    Serial.println(" %RH");
+  }
 
   Serial.println("cycle...");
 

@@ -1,4 +1,5 @@
 #include "adxl312.h"
+#include <Arduino.h>
 
 
 ADXL312::ADXL312()
@@ -72,7 +73,8 @@ void ADXL312::configureForMeasurement()
 
 void ADXL312::getXYZ(uint8_t *msg)
 {
-    uint8_t cmd[1] = {ADXL312_XYZDATA_REG_OFFSET}; 
+    uint8_t cmd[1] = {ADXL312_XYZDATA_REG_OFFSET};
+    //while(!isDataReady()){}
     ADXL312write(cmd, 1);
     if(ADXL312read(msg, 6))
     {
@@ -80,4 +82,16 @@ void ADXL312::getXYZ(uint8_t *msg)
     }
     Serial.println("ERROR: XYZ Data not available!");
     return;
+}
+
+bool ADXL312::isDataReady()
+{
+    uint8_t cmd[1] = {ADXL312_INTENABLE_REG}; 
+    uint8_t msg[1];
+    ADXL312write(cmd, 1);
+    if(ADXL312read(msg, 1))
+    {
+       return msg[0] & 0x80;
+    }
+    return false;
 }

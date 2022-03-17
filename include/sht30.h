@@ -15,17 +15,19 @@
  * 
  */
 
-#define SHT30_I2C_ADDR                 0x44     //If ADDR (pin2) is connected to VDD, 0x45
+#define SWITCHBYTES(x)             (((x<<8) | (x>>8)) & 0xFFFF)      //Switches the first and second byte (This is required for all command values)
 
-#define SHT30_START_CMD_WCS            0x2C06   //Start measurement command with clock streching enabled and high repeatability
-#define SHT30_START_CMD_NCS            0x2400   //Start measurement command with clock streching disabled and high repeatability 
-#define SHT30_READSTATUS               0xF32D   //Read Out of Status Register
-#define SHT30_CLEARSTATUS              0x3041   //Clear Status
-#define SHT30_SOFTRESET                0x30A2   //Soft Reset
-#define SHT30_HEATEREN                 0x306D   //Heater Enable
-#define SHT30_HEATERDIS                0x3066   //Heater Disable
+#define SHT30_I2C_ADDR             0x44     //If ADDR (pin2) is connected to VDD, 0x45
 
-#define SHT30_REG_HEATER_BIT           0x0d     //Status Register Heater Bit
+#define SHT30_START_CMD_WCS        0x2C06   //Start measurement command with clock streching enabled and high repeatability
+#define SHT30_START_CMD_NCS        0x2400   //Start measurement command with clock streching disabled and high repeatability 
+#define SHT30_READSTATUS           0xF32D   //Read Out of Status Register
+#define SHT30_CLEARSTATUS          0x3041   //Clear Status
+#define SHT30_SOFTRESET            0x30A2   //Soft Reset
+#define SHT30_HEATEREN             0x306D   //Heater Enable
+#define SHT30_HEATERDIS            0x3066   //Heater Disable
+
+#define SHT30_REG_HEATER_BIT       0x0d     //Status Register Heater Bit
 
 
 class SHT30
@@ -101,12 +103,11 @@ class SHT30
         void enableHeater(bool h);
  
         /**
-         * @brief Retrieve humidity reading
+         * @brief Gets the temperature and humidity
          * 
-         * @return true 
-         * @return false 
+         * @param msg 
          */
-        bool getTempHumid(void);
+        void getTempHumid(uint8_t *msg);
 
 };
 

@@ -20,6 +20,7 @@
 #define ADXL312_DEVID                   0xE5
 #define ADXL312_POWER_CTRL_REG          0x2D
 #define ADXL312_POWER_CTRL_MEASURECMD   0x08    //This tells the accelerometer to read the value, might need to change it the sleep mode if not in use
+#define ADXL312_INTENABLE_REG           0x30    //This contains the DATA_READY bit
 #define ADXL312_XYZDATA_REG_OFFSET      0x32    //The XYZ data registers are 0x32-0x37
 
 class ADXL312
@@ -72,6 +73,14 @@ class ADXL312
          * @param msg 
          */
         void getXYZ(uint8_t *msg);
+
+        /**
+         * @brief Reads the DATA_READY bit to determine if XYZ data is in register yet
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool isDataReady();
 };
 
 #endif

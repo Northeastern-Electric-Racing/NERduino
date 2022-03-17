@@ -1,4 +1,5 @@
 #include "amc6821.h"
+#include <Arduino.h>
 
 
 AMC6821::AMC6821()

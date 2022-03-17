@@ -77,6 +77,7 @@ typedef struct
 
 }XYZData_t;
 
+
 /**
  * @brief  This is the message type for retrieving humidity data as a buffer
  * 
@@ -95,10 +96,11 @@ typedef struct
         int16_t data;
     }HumidData;
 
+    float tempF = -49 + (315 * (TempData.data / (65536 - 1))); 
+    float tempC = -45 + (175 * (TempData.data / (65536 - 1)));
+    float relativeHumidity = 100 * (HumidData.data / (65536 - 1));
+
 }HumidData_t;
-
-
-
 
 /*********************************************/
 
@@ -118,6 +120,7 @@ class nerduino
          * @note size of buffer is determined by NUM_ADXL312_SAMPLES macro
          * 
          * @param xyzbuf 
+         * @param numReadings
          */
         void getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings);
 
@@ -126,8 +129,9 @@ class nerduino
          * @note size of buffer is determined by NUM_SHT30_SAMPLES macro
          * 
          * @param humidbuf 
+         * @param numReadings
          */
-        void getSHTdata(HumidData_t *humidbuf);
+        void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
 };
 
 /*************************************************/
