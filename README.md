@@ -13,7 +13,7 @@ Handles board peripherals and onboard sensor processing
 
 ### NERduino Library Overview of Usable Function
 ```
-nerduino object
+NERduino object
 |
 |───private:
 |   |───ADXL312 object
@@ -23,6 +23,7 @@ nerduino object
 └───public:
     |───nerduino()      # calls Wire.begin() and Serial.begin(9600)
     |───~nerduino()
+    |───begin()         #calls the constructors of each chip (returns false if a chip is not found)
     |───getADXLdata(XYZData_t *xyzbuf)  # fills an XYZDATA_t buffer
     └───...more to be added
 ```
@@ -39,6 +40,8 @@ CAN Functions (currently not bound to an object)
 ```
 
 ## Code Overview
+#### ***Note*** : the NERduino.begin() function must be called to read chip data
+
 ### CAN Message Handler
 The master CAN handler files allow for all CAN messages on all nodes to be processed using the same function and a large switch statement. It also allows for configurable CAN ID's that are saved in each node's EEPROM.
 
