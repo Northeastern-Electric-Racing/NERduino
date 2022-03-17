@@ -6,7 +6,10 @@ Handles board peripherals and onboard sensor processing
 #### TODOs
 1. CAN ID filtering
 2. ~~Finish testing of SHT30~~
-3. Finish testing of AMC6821
+3. Finish Implementation of SHT30
+4. Rework ADXL312
+5. Finish testing of AMC6821
+6. Finish Implementation of AMC6821
 
 ### NERduino Library Overview of Usable Function
 ```
