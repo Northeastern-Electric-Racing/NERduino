@@ -36,7 +36,7 @@ CAN Functions (currently not bound to an object)
 |
 |───canHandler_CANMSG_BMSSHUTDOWN(const CAN_message_t &msg)         # specific CAN handle commands
 |───...
-|───canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg)
+└───canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg)
 ```
 
 ## Code Overview
