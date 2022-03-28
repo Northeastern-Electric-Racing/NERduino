@@ -7,15 +7,15 @@
 
 #include <Arduino.h>
 
-class timer
+class Timer
 {
     private:
         bool running = 0;
         uint32_t expireTime;
 
     public:
-        timer();
-        ~timer();
+        Timer();
+        ~Timer();
         void startTimer(uint32_t timeout);
         void cancelTimer();
         bool isTimerExpired();

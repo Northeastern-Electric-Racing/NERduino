@@ -1,6 +1,6 @@
 /**
  * @file sht30.h
- * @author Nick DePatie
+ * @author Nick DePatie and David Meseonznik
  * @brief 
  */
 #ifndef SHT30_H
