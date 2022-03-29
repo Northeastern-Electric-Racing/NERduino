@@ -15,8 +15,27 @@ class Timer
 
     public:
         Timer();
+        
         ~Timer();
+
+        /**
+         * @brief Starts a timer for the inputted timeout value in milliseconds
+         * 
+         * @param timeout (milliseconds)
+         */
         void startTimer(uint32_t timeout);
+
+        /**
+         * @brief Sets the time for the timer to expire at the current time, effectively canceling the timer
+         * 
+         */
         void cancelTimer();
+
+        /**
+         * @brief Checks to see if the timer is still running
+         * 
+         * @return true 
+         * @return false 
+         */
         bool isTimerExpired();
 };
