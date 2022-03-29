@@ -5,6 +5,9 @@
  * @date 2022-03-25
  */
 
+#ifndef TIMER_H
+#define TIMER_H
+
 #include <Arduino.h>
 
 class Timer
@@ -39,3 +42,5 @@ class Timer
          */
         bool isTimerExpired();
 };
+
+#endif
