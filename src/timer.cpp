@@ -20,7 +20,7 @@ bool Timer::isTimerExpired()
 {
     if(!running)
     {
-        return false;
+        return true;
     }
 
     return expireTime > millis() ? false : true;
