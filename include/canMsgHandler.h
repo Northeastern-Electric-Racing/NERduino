@@ -117,6 +117,7 @@ void canHandler_CANMSG_MOTORTORQUETIMER     (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSSTATUS2           (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_message_t &msg);
 void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg);
+void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg);
 
 //For SD logging in the TCU, isn't used anywhere else
 bool SDWrite();
