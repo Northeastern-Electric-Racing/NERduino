@@ -31,6 +31,7 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
 #define CANMSG_BMSACCSTATUS         0x01
 #define CANMSG_BMSSHUTDOWN          0x03
 #define CANMSG_BMSCELLDATA          0x04
+#define CANMSG_BMSCHARGINGSTATE     0x05
 #define CANMSG_BMSDTCSTATUS         0x002
 #define CANMSG_BMSCURRENTLIMITS     0x202
 #define CANMSG_ACCELERATIONCTRLINFO 0xC0
@@ -118,6 +119,7 @@ void canHandler_CANMSG_BMSSTATUS2           (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_message_t &msg);
 void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg);
 void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg);
 
 //For SD logging in the TCU, isn't used anywhere else
 bool SDWrite();
