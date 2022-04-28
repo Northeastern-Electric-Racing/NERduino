@@ -15,6 +15,7 @@ class Timer
     private:
         bool running = 0;
         uint32_t expireTime;
+        bool isReset = 0;
 
     public:
         Timer();
@@ -41,6 +42,14 @@ class Timer
          * @return false 
          */
         bool isTimerExpired();
+
+        /**
+         * @brief Checks if timer is reset
+         * 
+         * @return true 
+         * @return false 
+         */
+        bool isTimerReset();
 };
 
 #endif
