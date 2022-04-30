@@ -104,9 +104,10 @@ void incomingCANCallback(const CAN_message_t &msg)
         case CANMSG_BMSCHARGINGSTATE:
             canHandler_CANMSG_BMSCHARGINGSTATE(msg);
             break;
+        case CANMSG_BMSCURRENTS:
+            canHandler_CANMSG_BMSCURRENTS(msg);
+            break;
         default:
-            Serial.print("! CAN ID Invalid:\t");
-            Serial.println(msg.id, HEX);
             break;
     }
 }
@@ -138,6 +139,7 @@ __attribute__((weak)) void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_mes
 __attribute__((weak)) void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg){return;}
+__attribute__((weak)) void canHandler_CANMSG_BMSCURRENTS          (const CAN_message_t &msg){return;}
 
 //For SD logging in the TCU, isn't used anywhere else
 __attribute__((weak)) bool SDWrite(){return true;}
