@@ -1,10 +1,7 @@
 /**
  * @file canMsgHandler.h
  * @author Nick DePatie
- * @brief 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   CAN Node must be initialized externally by setting the desired CAN ID's into the EEPROM before use
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * @brief Centralized CAN Handler
  * @date 2022-03-07
  */
 #ifndef CANMSGHANDLER_H
