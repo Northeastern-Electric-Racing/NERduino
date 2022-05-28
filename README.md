@@ -3,6 +3,8 @@ Contains the base code for all NERduino applications
 
 Handles board peripherals and onboard sensor processing, in addition to starting local I2C and serial comms
 
+Also contains a centralized CAN Message handler
+
 #### TODOs
 1. Finish testing of AMC6821
 2. Finish Implementation of AMC6821
