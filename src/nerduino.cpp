@@ -7,7 +7,7 @@ NERDUINO NERduino;
 NERDUINO::NERDUINO()
 {
     Wire.begin();
-    Serial.begin(9600);
+    Serial.begin(57600);
 }
 
 
@@ -17,7 +17,7 @@ NERDUINO::~NERDUINO(){}
 bool NERDUINO::begin()
 {
     adxl312 = ADXL312();
-    amc6821 = AMC6821();
+    //amc6821 = AMC6821();
     sht30 = SHT30();
 }
 

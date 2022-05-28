@@ -1,6 +1,6 @@
 /**
  * @file amc6821.h
- * @author Nick DePatie
+ * @author Nick DePatie and Dylan Donahue
  * @brief 
  * @date 2022-03-14
  */

@@ -76,7 +76,7 @@ void SHT30::enableHeater(bool h)                            //Allows for heating
     SHT30write(&cmd, 2);
 }
 
-   
+
 void SHT30::getTempHumid(uint8_t *msg)                              //Public function to start a measurement and print values
 {
     cmd_t cmd = {.cmdVal = SWITCHBYTES(SHT30_START_CMD_WCS)};
