@@ -1,15 +1,12 @@
 # NERduino
 Contains the base code for all NERduino applications
 
-Handles board peripherals and onboard sensor processing
+Handles board peripherals and onboard sensor processing, in addition to starting local I2C and serial comms
 
 #### TODOs
-1. CAN ID filtering
-2. ~~Finish testing of SHT30~~
-3. ~~Finish Implementation of SHT30~~
-4. ~~Rework ADXL312~~
-5. Finish testing of AMC6821
-6. Finish Implementation of AMC6821
+1. Finish testing of AMC6821
+2. Finish Implementation of AMC6821
+3. Update Naming of CAN Messages
 
 ### NERduino Library Overview of Usable Function
 ```
@@ -49,31 +46,27 @@ To send a message on the CAN network, use the ```sendMessage(uint32_t id, uint8_
 
 To add fuctionality to a certain received CAN ID, simply implement one of the following functions that correspond to each CAN ID, the compiler will know to use the function you created:
 ```
-void canHandler_CANMSG_BMSSHUTDOWN          (const CAN_message_t &msg)
-void canHandler_CANMSG_BMSDTCSTATUS         (const CAN_message_t &msg)
-void canHandler_CANMSG_SET_INVERTER         (const CAN_message_t &msg)
-void canHandler_CANMSG_SET_CARDIRECTION     (const CAN_message_t &msg)
-void canHandler_CANMSG_SET_BRAKELIGHT       (const CAN_message_t &msg)
-void canHandler_CANMSG_ERR_BRAKESWITCH      (const CAN_message_t &msg)
-void canHandler_CANMSG_ERR_PEDALSENSOR      (const CAN_message_t &msg)
-void canHandler_CANMSG_CARACCELERATION      (const CAN_message_t &msg)
-void canHandler_CANMSG_BRAKEFLUIDPRESSURE   (const CAN_message_t &msg)
-void canHandler_CANMSG_COOLINGFLOWRATE      (const CAN_message_t &msg)
-void canHandler_CANMSG_GPSDATA              (const CAN_message_t &msg)
-void canHandler_CANMSG_DIFFTEMP             (const CAN_message_t &msg)
-void canHandler_CANMSG_ACCELERATIONCTRLINFO (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORTEMP1           (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORTEMP2           (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORETEMP3          (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORMOTION          (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORCURRENT         (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORVOLTAGE         (const CAN_message_t &msg)
-void canHandler_CANMSG_MCVEHICLESTATE       (const CAN_message_t &msg)
-void canHandler_CANMSG_ERR_MCFAULT          (const CAN_message_t &msg)
-void canHandler_CANMSG_MOTORTORQUETIMER     (const CAN_message_t &msg)
-void canHandler_CANMSG_BMSSTATUS2           (const CAN_message_t &msg)
-void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_message_t &msg)
-void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg)
+void canHandler_CANMSG_BMSACCSTATUS         (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSCELLDATA          (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSCURRENTLIMITS     (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSSHUTDOWN          (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSDTCSTATUS         (const CAN_message_t &msg);
+void canHandler_CANMSG_ACCELERATIONCTRLINFO (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORTEMP1           (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORTEMP2           (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORETEMP3          (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORMOTION          (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORCURRENT         (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORVOLTAGE         (const CAN_message_t &msg);
+void canHandler_CANMSG_MCVEHICLESTATE       (const CAN_message_t &msg);
+void canHandler_CANMSG_ERR_MCFAULT          (const CAN_message_t &msg);
+void canHandler_CANMSG_MOTORTORQUETIMER     (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSSTATUS2           (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSCHARGEDISCHARGE   (const CAN_message_t &msg);
+void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg);
+void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg);
+void canHandler_CANMSG_BMSCURRENTS          (const CAN_message_t &msg);
 ```
 
 
@@ -105,7 +98,7 @@ HumidData_t
 ```
 
 
-### AMC6821 PWM Generator
+### AMC6821 PWM Generator (WIP)
 [AMC6821 Datasheet](https://www.ti.com/lit/ds/symlink/amc6821.pdf?ts=1644706226375&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FAMC6821%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dasc-sens-null-prodfolderdynamic-cpc-pf-google-wwe%2526utm_content%253Dprodfolddynamic%2526ds_k%253DDYNAMIC%2BSEARCH%2BADS%2526DCM%253Dyes%2526gclid%253DCj0KCQiA0p2QBhDvARIsAACSOOPKQVP7tfyxbaC8997ZjeHcQWZiSwAi1yblV-rFrJZ4BQS3xCwo1iYaAjmLEALw_wcB%2526gclsrc%253Daw.ds)
 
 A pulse width modulation chip specifically designed for intelligently controlling fan behavior. In the NERduino, howeveer, all fan-related functions of the chip are ignored, and the chip is solely used for generating a PWM signal. The duty cycle can be set via ```setDutyCycle(uint8_t dutycycle)``` *(WIP)* which sets the PWM Duty Cycle to a value between 0-255. The functionality of this chip may differ per device due to debug flags.
