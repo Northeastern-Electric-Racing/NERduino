@@ -52,6 +52,12 @@
 #define NUM_ADXL312_SAMPLES 16
 #define NUM_SHT30_SAMPLES   16
 
+typedef enum
+{
+    FAULTED = 1,
+    NOT_FAULTED = 0
+}FaultStatus_t;
+
 /**
  * @brief This is the message type for retrieving XYZ data as a buffer
  * 
