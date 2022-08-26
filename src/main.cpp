@@ -13,8 +13,7 @@ void setup() {
   NERduino.begin();
 }
 
-void loop()
-{
+void loop(){
   XYZData_t xyzbuf[NUM_ADXL312_SAMPLES];
   HumidData_t humidbuf[3];
 
@@ -46,8 +45,8 @@ void loop()
     Serial.print(humidbuf[i].relHumid);
     Serial.println(" %RH");
   }
-
+  
   Serial.println("cycle...");
 
-  delay(500);
+  delay(1000);
 }
