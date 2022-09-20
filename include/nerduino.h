@@ -135,6 +135,12 @@ class NERDUINO
          * @param numReadings
          */
         void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
+        /**
+         * @brief write the passed dutycycle 
+         * 
+         * @param dutycycle
+         */
+        void setAMCDutyCycle(uint8_t dutyCycle);
 };
 
 extern NERDUINO NERduino;

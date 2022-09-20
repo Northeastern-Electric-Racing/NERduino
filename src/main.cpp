@@ -45,8 +45,12 @@ void loop(){
     Serial.print(humidbuf[i].relHumid);
     Serial.println(" %RH");
   }
-  
+
+  NERduino.setAMCDutyCycle(0x00);
+  delay(1000);
+  NERduino.setAMCDutyCycle(0xFF);
+
   Serial.println("cycle...");
 
-  delay(1000);
+  delay(5000);
 }

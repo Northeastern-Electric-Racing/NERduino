@@ -180,7 +180,7 @@ class AMC6821
          * 
          * @return uint8_t* 
          */
-        uint8_t *getConfig2Reg();
+        uint8_t getConfig2Reg();
 
         /**
          * @brief Set the Configuration 2 Register
@@ -197,12 +197,11 @@ class AMC6821
         void resetChip();
 
         /**
-         * @brief Writes to the specified config register the desired config
+         * @brief Writes to the specified config register
          * 
          * @param configNum 
          * @param config 
          */
         void writeConfig(uint8_t configNum, uint8_t config);
 };
-
 #endif
