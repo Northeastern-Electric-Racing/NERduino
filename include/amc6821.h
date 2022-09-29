@@ -82,7 +82,6 @@ class AMC6821
         union
         {
             uint8_t *msg;
-
             struct
             {
                 uint8_t fanspinup_enable        :1;
@@ -176,20 +175,6 @@ class AMC6821
         void getCharacteristics();
 
         /**
-         * @brief Reading the Configuration 2 Register
-         * 
-         * @return uint8_t* 
-         */
-        uint8_t getConfig2Reg();
-
-        /**
-         * @brief Set the Configuration 2 Register
-         * 
-         * @param config 
-         */
-        void setConfig2Reg(uint8_t config);
-
-        /**
          * @brief Resets the registers of the AMC6821
          * @note Essentially behaves like a soft power cycle
          * 
@@ -203,5 +188,12 @@ class AMC6821
          * @param config 
          */
         void writeConfig(uint8_t configNum, uint8_t config);
+        /**
+         * @brief Reads specified config register
+         * 
+         * @param configNum 
+         * @param msg 
+         */
+        void readConfig(uint8_t *msg, uint8_t configNum);        
 };
 #endif
