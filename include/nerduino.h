@@ -11,6 +11,7 @@
 #include <Wire.h>
 #include <EEPROM.h>
 #include <Arduino.h>
+#include <SPI.h>
 #include "canMsgHandler.h"
 #include "adxl312.h"
 #include "sht30.h"
@@ -141,6 +142,39 @@ class NERDUINO
          * @param numReadings
          */
         void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
+
+        /**
+         * @brief takes in numBytes of data to send over SPI line 1 from master to all peripheral devices
+         * @note clock speed & SPI mode may be dependent upon peripheral devices and should be rechecked when adding devices
+         * 
+         * @param value 
+         * @param numBytes 
+         */
+        void writeSPILine1(uint8_t *value, uint8_t numBytes);
+
+        /**
+         * @brief takes in numBytes of data to send over SPI line 2 from master to all peripheral devices
+         * @note clock speed & SPI mode may be dependent upon peripheral devices and should be rechecked when adding devices
+         * @param value 
+         * @param numBytes 
+         */
+        void writeSPILine2(uint8_t *value, uint8_t numBytes);
+
+        /**
+         * @brief sends dummy bytes 0x00 across SPI line 1 in order to receive data back in to store in msg
+         * @note timing may mess with this, if recieiving no data back may need to add delays
+         * @param msg 
+         * @param numBytes 
+         */
+        void readSPILine1(uint8_t *msg, uint8_t numBytes);
+
+        /**
+         * @brief sends dummy bytes 0x00 across SPI line 2 in order to receive data back in to store in msg
+         * @note timing may mess with this, if recieiving no data back may need to add delays
+         * @param msg 
+         * @param numBytes 
+         */
+        void readSPILine2(uint8_t *msg, uint8_t numBytes);
 };
 
 extern NERDUINO NERduino;
