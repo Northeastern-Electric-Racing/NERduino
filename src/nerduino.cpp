@@ -95,7 +95,7 @@ void NERDUINO::writeSPILine2(uint8_t *value, uint8_t numBytes)
 void NERDUINO::readSPILine1(uint8_t *msg, uint8_t numBytes)
 {
 
-SPI1.beginTransaction(SPISettings(1000000, LSBFIRST, SPI_MODE0));
+SPI1.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
 
 digitalWrite(SPI1_CS, LOW);
 for(uint8_t i=0; i<numBytes;i++)
@@ -110,7 +110,7 @@ for(uint8_t i=0; i<numBytes;i++)
 void NERDUINO::readSPILine2(uint8_t *msg, uint8_t numBytes)
 {
 
-SPI1.beginTransaction(SPISettings(1000000, LSBFIRST, SPI_MODE0));
+SPI1.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
 
 digitalWrite(SPI2_CS, LOW);
 for(uint8_t i=0; i<numBytes;i++)
