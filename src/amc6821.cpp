@@ -9,12 +9,13 @@ AMC6821::AMC6821()
     {
         Serial.println("AMC6821 PWM Chip connected");
         resetChip();
-        getCharacteristics();
         delay(10);
         writeConfig(1, 0x08);
         writeConfig(2, 0x03);
         writeConfig(3, 0x02);
         writeConfig(4, 0x88);
+        disableFanSpinup(true);
+        getCharacteristics();
         return;
     }
     Serial.println("~~~~~~~~~~~~~~~~WARNING: Unable to verify functionality of AMC6821~~~~~~~~~~~~~~~~~~~~~~~");
@@ -92,7 +93,7 @@ void AMC6821::enablePWM(bool pwm_toggle)
     writeConfig(2, newconfig2);
 }
 
-void AMC6821::enableFanSpinup(bool fanspinup_toggle)
+void AMC6821::disableFanSpinup(bool fanspinup_toggle)
 {
     characteristicsmsg.bitfieldmsg.fanspinup_enable = fanspinup_toggle;
     setCharacteristics();

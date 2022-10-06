@@ -146,7 +146,7 @@ class AMC6821
          * 
          * @param fanspinup_toggle 
          */
-        void enableFanSpinup(bool fanspinup_toggle);
+        void disableFanSpinup(bool fanspinup_toggle);
 
         /**
          * @brief Set the Fan Spin Up Time

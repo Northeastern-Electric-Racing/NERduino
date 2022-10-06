@@ -61,3 +61,9 @@ void NERDUINO::setAMCDutyCycle(uint8_t dutyCycle)
 {
     amc6821.setDutyCycle(dutyCycle);
 }
+
+void NERDUINO::setAMCPWMFreq(pwmfreq_t pwmfreq)
+{
+    amc6821.setPWMFreq(pwmfreq);
+}
+
