@@ -7,11 +7,10 @@ AMC6821::AMC6821()
     
     if(verifyFunctionality())
     {
-      u_int8_t msg[1];
         Serial.println("AMC6821 PWM Chip connected");
         resetChip();
         getCharacteristics();
-        delay(50);
+        delay(10);
         writeConfig(1, 0x08);
         writeConfig(2, 0x03);
         writeConfig(3, 0x02);
@@ -140,6 +139,8 @@ void AMC6821::getCharacteristics()
 void AMC6821::resetChip()
 {
   writeConfig(2, 0x80);
+  characteristicsmsg.msg = 29;
+  setCharacteristics();
 }
 
 void AMC6821::writeConfig(uint8_t configNum, uint8_t config)

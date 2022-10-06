@@ -52,5 +52,5 @@ void loop(){
 
   Serial.println("cycle...");
 
-  delay(5000);
+  delay(2000);
 }
