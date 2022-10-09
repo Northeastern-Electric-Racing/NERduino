@@ -1,6 +1,7 @@
 #include "canMsgHandler.h"
 
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan;
+FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> myCan2;
 
 void initializeCAN(uint8_t canLine)
 {
@@ -12,6 +13,18 @@ void initializeCAN(uint8_t canLine)
     myCan.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
     myCan.onReceive(incomingCANCallback); // sets the callback for received messages
     myCan.mailboxStatus(); // prints out mailbox config information
+}
+
+void initializeCAN2(uint8_t canLine) // identical to previous but is for new CAN line
+{
+    myCan2.begin(); 
+    myCan2.setBaudRate(BAUD_RATE); 
+
+    myCan2.setMaxMB(MAX_MB_NUM);
+    myCan2.enableFIFO(); 
+    myCan2.enableFIFOInterrupt(); 
+    myCan2.onReceive(incomingCANCallback); 
+    myCan2.mailboxStatus();
 }
 
 
@@ -35,6 +48,28 @@ uint8_t *buf1;
     }
 
     return myCan.write(msg);
+}
+
+int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf) //
+{
+CAN_message_t msg;
+msg.id = id;
+msg.len = len;
+uint8_t *buf1;
+
+    for (int i = 0; i < 8; i++) {
+        if (i < len)
+        {
+            buf1 = const_cast<uint8_t*>(buf + i);
+            msg.buf[i] = *buf1;
+        }
+        else
+        {
+            msg.buf[i] = 0; 
+        }
+    }
+
+    return myCan2.write(msg);
 }
 
 void incomingCANCallback(const CAN_message_t &msg)

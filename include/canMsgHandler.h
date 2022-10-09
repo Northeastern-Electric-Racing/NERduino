@@ -63,6 +63,17 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
 int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf);
 
 /**
+ * @brief Sends CAN message on Line 2
+ * 
+ * @param id 
+ * @param len 
+ * @param buf 
+ * @return int 
+ */
+int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf);
+
+
+/**
  * @brief Processes all CAN messages
  * @note  ID filtering should happen beforehand, maybe add relevent ID's to each .cpp file?
  * 
@@ -76,6 +87,13 @@ void incomingCANCallback(const CAN_message_t &msg);
  * @param canLine   which CAN transceiver to use we want to use = NOT currently being used, we will probably need this eventually if we need to broadcast at different rates
  */
 void initializeCAN(uint8_t canLine);
+
+/**
+ * @brief Initializes a CAN object for second line when needed
+ * 
+ * @param canLine  
+ */
+void initializeCAN2(uint8_t canLine);
 
 /**
  * @brief Reads in all EEPROM values and initializes the canAddr's struct
