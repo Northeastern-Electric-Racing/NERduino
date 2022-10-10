@@ -78,7 +78,7 @@ void AMC6821::enablePWM(bool pwm_toggle)
 {
     uint8_t msg[1];
     readConfig(msg, 2);
-    if (msg[0] == NULL)
+    if (msg == NULL)
     {
         Serial.println("PWM Toggle not successful");
         return;
@@ -133,7 +133,7 @@ void AMC6821::getCharacteristics()
 {
     uint8_t cmd[1] = {AMC6821_CHARACTERISTICS_REG};
     AMC6821write(cmd,1);
-    AMC6821read(characteristicsmsg.msg, 1);
+    AMC6821read(&characteristicsmsg.msg, 1);
     return;
 }
 
@@ -165,7 +165,7 @@ void AMC6821::writeConfig(uint8_t configNum, uint8_t config)
       break;
     default:
       Serial.println("Unidentified Config #!");
-      break;
+      return;
   }
   
   AMC6821write(cmd,2);
@@ -178,20 +178,21 @@ void AMC6821::readConfig(uint8_t *msg, uint8_t configNum)
   switch(configNum)
   {
     case 1:
-      cmd[0] =  AMC6821_CONFIG1_REG;
-      break;
+        cmd[0] =  AMC6821_CONFIG1_REG;
+        break;
     case 2:
-      cmd[0] =  AMC6821_CONFIG2_REG;
-      break;
+        cmd[0] =  AMC6821_CONFIG2_REG;
+        break;
     case 3:
-      cmd[0] =  AMC6821_CONFIG3_REG;
-      break;
+        cmd[0] =  AMC6821_CONFIG3_REG;
+        break;
     case 4:
-      cmd[0] =  AMC6821_CONFIG4_REG;
-      break;
+        cmd[0] =  AMC6821_CONFIG4_REG;
+        break;
     default:
-      Serial.println("Unidentified Config #!");
-      break;
+        Serial.println("Unidentified Config #!");
+        msg = NULL;
+        return;
   }
   AMC6821write(cmd, 1);
   AMC6821read(msg,1);

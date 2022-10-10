@@ -47,7 +47,7 @@
 #define AMC6821_CHARACTERISTICS_REG         0x20
 
 //PWM Frequencies type
-typedef enum pwmfreq_t
+enum pwmfreq_t
 {
     AMC6821_CHARACTERISTICS_1KHZ,
     AMC6821_CHARACTERISTICS_10KHZ,
@@ -58,7 +58,7 @@ typedef enum pwmfreq_t
 };
 
 //Fan spin up times type
-typedef enum fanspinuptime_t
+enum fanspinuptime_t
 {
     AMC6821_CHARACTERISTICS_SPINUP_02,      //02 means 0.2 seconds
     AMC6821_CHARACTERISTICS_SPINUP_04,      //04 means 0.4 seconds
