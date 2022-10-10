@@ -62,64 +62,56 @@ void NERDUINO::getSHTdata(HumidData_t *humidbuf, uint8_t numReadings)
 
 void NERDUINO::writeSPILine1(uint8_t *value, uint8_t numBytes) 
 {
-  SPI1.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));   
+    SPI1.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));   
  
-  digitalWrite(SPI1_CS,LOW);
-for(uint8_t i=0; i<numBytes;i++)
+    digitalWrite(SPI1_CS,LOW);
+    for(uint8_t i=0; i<numBytes;i++)
     {
         SPI1.transfer(value[i]);
     }
  
-  digitalWrite(SPI1_CS,HIGH);
+    digitalWrite(SPI1_CS,HIGH);
   
-  SPI1.endTransaction(); 
+    SPI1.endTransaction(); 
 }
 
 
 void NERDUINO::writeSPILine2(uint8_t *value, uint8_t numBytes) 
 {
-  SPI2.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
+    SPI2.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
  
-  digitalWrite(SPI2_CS,LOW);
-  for(uint8_t i=0; i<numBytes;i++)
+    digitalWrite(SPI2_CS,LOW);
+    for(uint8_t i=0; i<numBytes;i++)
     {
         SPI2.transfer(value[i]);
     }
  
-  digitalWrite(SPI2_CS,HIGH);
+    digitalWrite(SPI2_CS,HIGH);
   
-  SPI2.endTransaction();
+    SPI2.endTransaction();
 }
 
 
 void NERDUINO::readSPILine1(uint8_t *msg, uint8_t numBytes)
 {
+    SPI1.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
 
-SPI1.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
-
-digitalWrite(SPI1_CS, LOW);
-for(uint8_t i=0; i<numBytes;i++)
+    digitalWrite(SPI1_CS, LOW);
+    for(uint8_t i=0; i<numBytes;i++)
     {
         SPI1.transfer(0x00);
         msg[i] = SPI1.transfer(0x00);
     }
-
-    Serial.print(*msg);
 }
 
 void NERDUINO::readSPILine2(uint8_t *msg, uint8_t numBytes)
-
-
 {
+    SPI2.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
 
-SPI2.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
-
-digitalWrite(SPI2_CS, LOW);
-for(uint8_t i=0; i<numBytes;i++)
+    digitalWrite(SPI2_CS, LOW);
+    for(uint8_t i=0; i<numBytes;i++)
     {
         SPI2.transfer(0x00);
         msg[i] = SPI2.transfer(0x00);
     }
-
-    Serial.print(*msg);
 }
