@@ -32,18 +32,6 @@ void initializeCAN(uint8_t canLine)
    
 }
 
-void initializeCAN2() // identical to previous but is for new CAN line
-{
-    myCan2.begin(); 
-    myCan2.setBaudRate(BAUD_RATE); 
-
-    myCan2.setMaxMB(MAX_MB_NUM);
-    myCan2.enableFIFO(); 
-    myCan2.enableFIFOInterrupt(); 
-    myCan2.onReceive(incomingCANCallback); 
-    myCan2.mailboxStatus();
-}
-
 CAN_message_t serializeCANMsg(uint32_t id, uint8_t len, const uint8_t *buf)
 {
 
