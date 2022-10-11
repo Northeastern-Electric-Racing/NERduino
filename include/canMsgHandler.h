@@ -98,14 +98,6 @@ void incomingCANCallback(const CAN_message_t &msg);
  */
 void initializeCAN(uint8_t canLine);
 
-/**
- * @brief Initializes a CAN object for second line when needed
- * 
- * @param canLine  
- */
-void initializeCAN2();
-
-
 
 /**
  * @brief Reads in all EEPROM values and initializes the canAddr's struct
