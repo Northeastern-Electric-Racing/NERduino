@@ -141,6 +141,19 @@ class NERDUINO
          * @param numReadings
          */
         void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
+        /**
+         * @brief write the passed dutycycle to the AMC duty cycle register
+         * 
+         * @param dutycycle
+         */
+        void setAMCDutyCycle(uint8_t dutyCycle);
+        /**
+         * @brief sets the pwm frequency of the AMC duty cycle
+         * @note take a value from 0 to 5 corresponsing to 1kHz, 10kHz, 20kHz, 25kHz, 30kHz, and 40kHz
+         * 
+         * @param pwmFreq (0-5)
+         */
+        void setAMCPWMFreq(pwmfreq_t pwmFreq);
 };
 
 extern NERDUINO NERduino;

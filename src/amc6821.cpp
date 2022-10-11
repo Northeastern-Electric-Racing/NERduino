@@ -7,8 +7,14 @@ AMC6821::AMC6821()
     
     if(verifyFunctionality())
     {
-        setDutyCycle(0);
-        enablePWM(1);
+        Serial.println("AMC6821 PWM Chip connected");
+        resetChip();
+        delay(10);
+        writeConfig(1, 0x08);
+        writeConfig(2, 0x03);
+        writeConfig(3, 0x02);
+        writeConfig(4, 0x88);
+        disableFanSpinup(true);
         getCharacteristics();
         return;
     }
@@ -28,7 +34,7 @@ void AMC6821::AMC6821write(uint8_t *cmd, uint8_t numBytes)
     {
         Wire.write(cmd[i]);
     }
-    Wire.endTransmission(false);
+    Wire.endTransmission();
 }
 
 
@@ -70,39 +76,24 @@ bool AMC6821::verifyFunctionality()
 
 void AMC6821::enablePWM(bool pwm_toggle)
 {
-    uint8_t *config2 = getConfig2Reg();
-    if (*config2 == NULL)
+    uint8_t msg[1];
+    readConfig(msg, 2);
+    if (msg == NULL)
     {
+        Serial.println("PWM Toggle not successful");
         return;
     }
-    uint8_t newconfig2 = pwm_toggle ? config2[0] | 0x01 : config2[0] & 0xFE;    //Setting pwm enable bit of config reg to 1 if pwm toggle, else set to 0
-    setConfig2Reg(newconfig2);
-}
-
-
-uint8_t *AMC6821::getConfig2Reg()
-{
-    uint8_t cmd[1] = {AMC6821_CONFIG2_REG};
-    uint8_t msg[1];
-    AMC6821write(cmd,1);
-    if(AMC6821read(msg,1))
-    {
-        return msg;
+    uint8_t newconfig2;
+    if (pwm_toggle == true){
+        newconfig2 = msg[0] | 0x01;
     }
-    Serial.println("ERROR: Unable to read from AMC6821 Configuration 2 Register");
-    return NULL;
+    else{
+        newconfig2 = msg[0] & 0xFE;
+    }
+    writeConfig(2, newconfig2);
 }
 
-
-void AMC6821::setConfig2Reg(uint8_t config)
-{
-    uint8_t cmd[2] = {AMC6821_CONFIG2_REG, config};
-    AMC6821write(cmd,2);
-    return;
-}
-
-
-void AMC6821::enableFanSpinup(bool fanspinup_toggle)
+void AMC6821::disableFanSpinup(bool fanspinup_toggle)
 {
     characteristicsmsg.bitfieldmsg.fanspinup_enable = fanspinup_toggle;
     setCharacteristics();
@@ -125,14 +116,16 @@ void AMC6821::setPWMFreq(pwmfreq_t pwmfreq)
 
 void AMC6821::setDutyCycle(uint8_t dutycycle)
 {
-    uint8_t cmd[2] = {AMC6821_DUTYCYCLE_REG,0xFF};
+    uint8_t cmd[2] = {AMC6821_DUTYCYCLE_REG, dutycycle};
     AMC6821write(cmd, 2);
+    AMC6821write(cmd, 1);
 }
 
 
 void AMC6821::setCharacteristics()
 {
-    AMC6821write(characteristicsmsg.msg,1);
+    uint8_t cmd[2] = {AMC6821_CHARACTERISTICS_REG, characteristicsmsg.msg};
+    AMC6821write(cmd,2);
 }
 
 
@@ -140,20 +133,21 @@ void AMC6821::getCharacteristics()
 {
     uint8_t cmd[1] = {AMC6821_CHARACTERISTICS_REG};
     AMC6821write(cmd,1);
-    AMC6821read(characteristicsmsg.msg,1);
+    AMC6821read(&characteristicsmsg.msg, 1);
     return;
 }
 
 void AMC6821::resetChip()
 {
-  uint8_t cmd[2] = {AMC6821_CONFIG2_REG, 0x80}; //Writes a 1 in the reset bit in Config 2
-  AMC6821write(cmd,2);
+  writeConfig(2, 0x80);
+  characteristicsmsg.msg = 29;
+  setCharacteristics();
 }
 
 void AMC6821::writeConfig(uint8_t configNum, uint8_t config)
 {
   uint8_t cmd[2];
-  cmd[1] = config;
+  cmd[1] = uint8_t(config);
 
   switch(configNum)
   {
@@ -171,8 +165,35 @@ void AMC6821::writeConfig(uint8_t configNum, uint8_t config)
       break;
     default:
       Serial.println("Unidentified Config #!");
-      break;
+      return;
   }
   
   AMC6821write(cmd,2);
+}
+
+void AMC6821::readConfig(uint8_t *msg, uint8_t configNum)
+{
+  uint8_t cmd[1];
+
+  switch(configNum)
+  {
+    case 1:
+        cmd[0] =  AMC6821_CONFIG1_REG;
+        break;
+    case 2:
+        cmd[0] =  AMC6821_CONFIG2_REG;
+        break;
+    case 3:
+        cmd[0] =  AMC6821_CONFIG3_REG;
+        break;
+    case 4:
+        cmd[0] =  AMC6821_CONFIG4_REG;
+        break;
+    default:
+        Serial.println("Unidentified Config #!");
+        msg = NULL;
+        return;
+  }
+  AMC6821write(cmd, 1);
+  AMC6821read(msg,1);
 }

@@ -17,7 +17,7 @@ NERDUINO::~NERDUINO(){}
 bool NERDUINO::begin()
 {
     adxl312 = ADXL312();
-    //amc6821 = AMC6821();
+    amc6821 = AMC6821();
     sht30 = SHT30();
 }
 
@@ -56,3 +56,14 @@ void NERDUINO::getSHTdata(HumidData_t *humidbuf, uint8_t numReadings)
 
     delete[] msg;
 }
+
+void NERDUINO::setAMCDutyCycle(uint8_t dutyCycle)
+{
+    amc6821.setDutyCycle(dutyCycle);
+}
+
+void NERDUINO::setAMCPWMFreq(pwmfreq_t pwmfreq)
+{
+    amc6821.setPWMFreq(pwmfreq);
+}
+

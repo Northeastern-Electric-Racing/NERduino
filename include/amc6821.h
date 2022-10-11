@@ -1,6 +1,6 @@
 /**
  * @file amc6821.h
- * @author Nick DePatie and Dylan Donahue
+ * @author Nick DePatie, Dylan Donahue, and David Meseonznik
  * @brief 
  * @date 2022-03-14
  */
@@ -47,7 +47,7 @@
 #define AMC6821_CHARACTERISTICS_REG         0x20
 
 //PWM Frequencies type
-typedef enum
+enum pwmfreq_t
 {
     AMC6821_CHARACTERISTICS_1KHZ,
     AMC6821_CHARACTERISTICS_10KHZ,
@@ -55,10 +55,10 @@ typedef enum
     AMC6821_CHARACTERISTICS_25KHZ,          //(default) frequency for our fans
     AMC6821_CHARACTERISTICS_30KHZ,
     AMC6821_CHARACTERISTICS_40KHZ           //0x06 and 0x07 also result in 40kHz duty cycle
-}pwmfreq_t;
+};
 
 //Fan spin up times type
-typedef enum
+enum fanspinuptime_t
 {
     AMC6821_CHARACTERISTICS_SPINUP_02,      //02 means 0.2 seconds
     AMC6821_CHARACTERISTICS_SPINUP_04,      //04 means 0.4 seconds
@@ -68,7 +68,7 @@ typedef enum
     AMC6821_CHARACTERISTICS_SPINUP_2,       //(default)
     AMC6821_CHARACTERISTICS_SPINUP_4,
     AMC6821_CHARACTERISTICS_SPINUP_8 
-}fanspinuptime_t;
+};
 
 /*********************************************************************************************/
 
@@ -81,14 +81,14 @@ class AMC6821
          */
         union
         {
-            uint8_t *msg;
+            uint8_t msg;
 
             struct
             {
-                uint8_t fanspinup_enable        :1;
-                uint8_t reserved                :1;
-                pwmfreq_t pwmfreq               :3;
                 fanspinuptime_t fanspinuptime   :3;
+                pwmfreq_t pwmfreq               :3;
+                uint8_t reserved                :1;
+                uint8_t fanspinup_enable        :1;
             } bitfieldmsg;
         }characteristicsmsg;
 
@@ -146,7 +146,7 @@ class AMC6821
          * 
          * @param fanspinup_toggle 
          */
-        void enableFanSpinup(bool fanspinup_toggle);
+        void disableFanSpinup(bool fanspinup_toggle);
 
         /**
          * @brief Set the Fan Spin Up Time
@@ -176,20 +176,6 @@ class AMC6821
         void getCharacteristics();
 
         /**
-         * @brief Reading the Configuration 2 Register
-         * 
-         * @return uint8_t* 
-         */
-        uint8_t *getConfig2Reg();
-
-        /**
-         * @brief Set the Configuration 2 Register
-         * 
-         * @param config 
-         */
-        void setConfig2Reg(uint8_t config);
-
-        /**
          * @brief Resets the registers of the AMC6821
          * @note Essentially behaves like a soft power cycle
          * 
@@ -197,12 +183,18 @@ class AMC6821
         void resetChip();
 
         /**
-         * @brief Writes to the specified config register the desired config
+         * @brief Writes to the specified config register
          * 
          * @param configNum 
          * @param config 
          */
         void writeConfig(uint8_t configNum, uint8_t config);
+        /**
+         * @brief Reads specified config register
+         * 
+         * @param configNum 
+         * @param msg 
+         */
+        void readConfig(uint8_t *msg, uint8_t configNum);        
 };
-
 #endif
