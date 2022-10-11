@@ -60,7 +60,7 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
  * @param buf 
  * @return int 
  */
-int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf);
+int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf);
 
 /**
  * @brief Sends CAN message on Line 2
@@ -72,6 +72,16 @@ int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf);
  */
 int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf);
 
+
+/**
+ * @brief Serialzes data (used in sendMessageCAN functions)
+ * 
+ * @param id 
+ * @param len 
+ * @param buf
+ * @return CAN_message_t
+ */
+CAN_message_t serializeCANMsg(uint32_t id, uint8_t len, const uint8_t *buf);
 
 /**
  * @brief Processes all CAN messages
@@ -93,7 +103,9 @@ void initializeCAN(uint8_t canLine);
  * 
  * @param canLine  
  */
-void initializeCAN2(uint8_t canLine);
+void initializeCAN2();
+
+
 
 /**
  * @brief Reads in all EEPROM values and initializes the canAddr's struct

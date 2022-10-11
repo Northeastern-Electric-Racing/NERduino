@@ -1,21 +1,38 @@
 #include "canMsgHandler.h"
 
-FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan;
+FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan1; // initilaizes two CAN objects
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> myCan2;
+
+
 
 void initializeCAN(uint8_t canLine)
 {
-    myCan.begin(); // needed to initialize the CAN object (must be first method called)
-    myCan.setBaudRate(BAUD_RATE); // sets baud rate
+   if (canLine == 1){
+    myCan1.begin(); // needed to initialize the CAN object (must be first method called)
+    myCan1.setBaudRate(BAUD_RATE); // sets baud rate
 
-    myCan.setMaxMB(MAX_MB_NUM);
-    myCan.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
-    myCan.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
-    myCan.onReceive(incomingCANCallback); // sets the callback for received messages
-    myCan.mailboxStatus(); // prints out mailbox config information
+    myCan1.setMaxMB(MAX_MB_NUM);
+    myCan1.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
+    myCan1.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
+    myCan1.onReceive(incomingCANCallback); // sets the callback for received messages
+    myCan1.mailboxStatus(); // prints out mailbox config information
+
+   }
+   else {
+
+    myCan2.begin(); // needed to initialize the CAN object (must be first method called)
+    myCan2.setBaudRate(BAUD_RATE); // sets baud rate
+
+    myCan2.setMaxMB(MAX_MB_NUM);
+    myCan2.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
+    myCan2.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
+    myCan2.onReceive(incomingCANCallback); // sets the callback for received messages
+    myCan2.mailboxStatus(); // prints out mailbox config information
+   }
+   
 }
 
-void initializeCAN2(uint8_t canLine) // identical to previous but is for new CAN line
+void initializeCAN2() // identical to previous but is for new CAN line
 {
     myCan2.begin(); 
     myCan2.setBaudRate(BAUD_RATE); 
@@ -27,49 +44,40 @@ void initializeCAN2(uint8_t canLine) // identical to previous but is for new CAN
     myCan2.mailboxStatus();
 }
 
-
-int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf)
+CAN_message_t serializeCANMsg(uint32_t id, uint8_t len, const uint8_t *buf)
 {
-CAN_message_t msg;
-msg.id = id;
-msg.len = len;
-uint8_t *buf1;
 
-    for (int i = 0; i < 8; i++) {
-        if (i < len)
-        {
-            buf1 = const_cast<uint8_t*>(buf + i);
-            msg.buf[i] = *buf1;
-        }
-        else
-        {
-            msg.buf[i] = 0; // copies buf to message, padding with 0s if length isn't 8
-        }
-    }
+    CAN_message_t msg;
+    msg.id = id;
+    msg.len = len;
+    uint8_t *buf1;
 
-    return myCan.write(msg);
+        for (int i = 0; i < 8; i++) {
+            if (i < len)
+            {
+                buf1 = const_cast<uint8_t*>(buf + i);
+                msg.buf[i] = *buf1;
+            }
+            else
+            {
+                msg.buf[i] = 0; // copies buf to message, padding with 0s if length isn't 8
+            }
+        }
+    return msg;
+}
+
+
+
+int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf)
+{
+    CAN_message_t msg = serializeCANMsg(id, len, buf);
+    return myCan1.write(msg);
 }
 
 int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf) //
 {
-CAN_message_t msg;
-msg.id = id;
-msg.len = len;
-uint8_t *buf1;
-
-    for (int i = 0; i < 8; i++) {
-        if (i < len)
-        {
-            buf1 = const_cast<uint8_t*>(buf + i);
-            msg.buf[i] = *buf1;
-        }
-        else
-        {
-            msg.buf[i] = 0; 
-        }
-    }
-
-    return myCan2.write(msg);
+    CAN_message_t msg = serializeCANMsg(id, len, buf);
+     return myCan2.write(msg);
 }
 
 void incomingCANCallback(const CAN_message_t &msg)
