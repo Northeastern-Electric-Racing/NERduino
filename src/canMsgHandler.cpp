@@ -4,12 +4,11 @@ FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan1; // initilaizes two CAN objects
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> myCan2;
 
 
-
-void initializeCAN(uint8_t canLine)
+void initializeCAN(uint8_t canLine, uint16_t baudRate = BAUD_RATE)
 {
    if (canLine == 1){
     myCan1.begin(); // needed to initialize the CAN object (must be first method called)
-    myCan1.setBaudRate(BAUD_RATE); // sets baud rate
+    myCan1.setBaudRate(baudRate); // sets baud rate
 
     myCan1.setMaxMB(MAX_MB_NUM);
     myCan1.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
@@ -21,12 +20,12 @@ void initializeCAN(uint8_t canLine)
    else {
 
     myCan2.begin(); // needed to initialize the CAN object (must be first method called)
-    myCan2.setBaudRate(BAUD_RATE); // sets baud rate
+    myCan2.setBaudRate(baudRate); // sets baud rate
 
     myCan2.setMaxMB(MAX_MB_NUM);
     myCan2.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
     myCan2.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
-    myCan2.onReceive(incomingCANCallback); // sets the callback for received messages
+    //myCan2.onReceive(incomingCANCallback); // sets the callback for received messages
     myCan2.mailboxStatus(); // prints out mailbox config information
    }
    
@@ -54,18 +53,21 @@ CAN_message_t serializeCANMsg(uint32_t id, uint8_t len, const uint8_t *buf)
     return msg;
 }
 
-
-
 int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf)
 {
     CAN_message_t msg = serializeCANMsg(id, len, buf);
     return myCan1.write(msg);
 }
 
-int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf) //
+int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf)
 {
     CAN_message_t msg = serializeCANMsg(id, len, buf);
      return myCan2.write(msg);
+}
+
+__attribute__((weak)) void incomingCANCallbackCAN2 (const CAN_message_t &msg){
+
+    return;
 }
 
 void incomingCANCallback(const CAN_message_t &msg)
@@ -171,6 +173,7 @@ __attribute__((weak)) void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_mes
 __attribute__((weak)) void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_BMSCURRENTS          (const CAN_message_t &msg){return;}
+__attribute__((weak)) void canHandler_CANMSG_CAN2                 (const CAN_message_t &msg){return;}
 
 //For SD logging in the TCU, isn't used anywhere else
 __attribute__((weak)) bool SDWrite(){return true;}

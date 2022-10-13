@@ -96,7 +96,7 @@ void incomingCANCallback(const CAN_message_t &msg);
  * 
  * @param canLine   which CAN transceiver to use we want to use = NOT currently being used, we will probably need this eventually if we need to broadcast at different rates
  */
-void initializeCAN(uint8_t canLine);
+void initializeCAN(uint8_t canLine, uint16_t baudRate = BAUD_RATE);
 
 
 /**
