@@ -173,7 +173,7 @@ __attribute__((weak)) void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_mes
 __attribute__((weak)) void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg){return;}
 __attribute__((weak)) void canHandler_CANMSG_BMSCURRENTS          (const CAN_message_t &msg){return;}
-__attribute__((weak)) void canHandler_CANMSG_CAN2                 (const CAN_message_t &msg){return;}
+__attribute__((weak)) void incomingCANCallbackCAN2                (const CAN_message_t &msg){return;}
 
 //For SD logging in the TCU, isn't used anywhere else
 __attribute__((weak)) bool SDWrite(){return true;}

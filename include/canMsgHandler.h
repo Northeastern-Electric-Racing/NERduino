@@ -141,6 +141,7 @@ void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg);
 void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCURRENTS          (const CAN_message_t &msg);
+void incomingCANCallbackCAN2                (const CAN_message_t &msg);
 
 //For SD logging in the TCU, isn't used anywhere else
 bool SDWrite();
