@@ -67,3 +67,38 @@ void NERDUINO::setAMCPWMFreq(pwmfreq_t pwmfreq)
     amc6821.setPWMFreq(pwmfreq);
 }
 
+void NERDUINO::enableSPI1()
+{
+    pinMode(SPI1_CS, OUTPUT);
+    digitalWrite(SPI1_CS, HIGH);        //! 1) Pull Chip Select High
+
+    pinMode(SPI1_SCK, OUTPUT);          //! 1) Setup SCK as output
+    pinMode(SPI1_MOSI, OUTPUT);         //! 2) Setup MOSI as output
+    SPI.begin();
+}
+
+void NERDUINO::writeSPI1(uint8_t tx_Data[], uint8_t tx_len, SPISettings settings)
+{
+    SPI.beginTransaction(settings);
+    for (uint8_t i = 0; i < tx_len; i++)
+    {
+        SPI.transfer((int8_t)tx_Data[i]);
+    }
+    SPI.endTransaction();
+}
+
+void NERDUINO::writereadSPI1(uint8_t tx_Data[], uint8_t tx_len, uint8_t *rx_data, uint8_t rx_len, SPISettings settings)
+{
+    SPI.beginTransaction(settings);
+    for (uint8_t i = 0; i < tx_len; i++)
+    {
+        SPI.transfer(tx_Data[i]);
+
+    }
+
+    for (uint8_t i = 0; i < rx_len; i++)
+    {
+        rx_data[i] = (uint8_t)SPI.transfer(0xFF);
+    }
+    SPI.endTransaction();
+}
