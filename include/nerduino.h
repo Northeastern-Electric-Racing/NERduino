@@ -16,6 +16,7 @@
 #include "sht30.h"
 #include "amc6821.h"
 #include "timer.h"
+#include <SPI.h>
 
 //Teensy Pinout
 #define RELAY_PIN       36          //implementation of RELAY_PIN is as simple as digitalWrite(RELAY_PIN,HIGH or LOW);
@@ -34,8 +35,8 @@
 //SPI
 #define SPI1_SCK        13
 #define SPI1_CS         10
-#define SPI1_MISO       11
-#define SPI1_MOSI       12
+#define SPI1_MISO       12
+#define SPI1_MOSI       11
 #define SPI2_SCK        27
 #define SPI2_CS         0
 #define SPI2_MISO       26
@@ -124,6 +125,12 @@ class NERDUINO
 
         bool begin();
 
+        void enableSPI1();
+
+        void writeSPI1(uint8_t tx_Data[], uint8_t tx_len, SPISettings settings);
+
+        void writereadSPI1(uint8_t tx_Data[], uint8_t tx_len, uint8_t *rx_data, uint8_t rx_len, SPISettings settings);
+
         /**
          * @brief fills a buffer of data type XYZData_t with XYZ accelerometer data
          * @note size of buffer is determined by NUM_ADXL312_SAMPLES macro
@@ -141,6 +148,19 @@ class NERDUINO
          * @param numReadings
          */
         void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
+        /**
+         * @brief write the passed dutycycle to the AMC duty cycle register
+         * 
+         * @param dutycycle
+         */
+        void setAMCDutyCycle(uint8_t dutyCycle);
+        /**
+         * @brief sets the pwm frequency of the AMC duty cycle
+         * @note take a value from 0 to 5 corresponsing to 1kHz, 10kHz, 20kHz, 25kHz, 30kHz, and 40kHz
+         * 
+         * @param pwmFreq (0-5)
+         */
+        void setAMCPWMFreq(pwmfreq_t pwmFreq);
 };
 
 extern NERDUINO NERduino;
