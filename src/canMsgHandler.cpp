@@ -5,8 +5,8 @@ FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> myCan2;
 
 
 void initializeCAN(uint8_t canLine = CANLINE_1, 
-    uint16_t baudRate = BAUD_RATE, 
-    const _MB_ptr &handler = &incomingCANCallback)
+    uint32_t baudRate = BAUD_RATE, 
+    canHandler handler = &incomingCANCallback)
 {
    if (canLine == CANLINE_1)
    {
@@ -22,7 +22,6 @@ void initializeCAN(uint8_t canLine = CANLINE_1,
    }
    else if (canLine ==  CANLINE_2)
    {
-
     myCan2.begin(); // needed to initialize the CAN object (must be first method called)
     myCan2.setBaudRate(baudRate); // sets baud rate
 
@@ -32,12 +31,10 @@ void initializeCAN(uint8_t canLine = CANLINE_1,
     myCan2.onReceive(handler); // sets the callback for received messages
     myCan2.mailboxStatus(); // prints out mailbox config information
    }
-   
 }
 
 CAN_message_t serializeCANMsg(uint32_t id, uint8_t len, const uint8_t *buf)
 {
-
     CAN_message_t msg;
     msg.id = id;
     msg.len = len;
@@ -66,10 +63,10 @@ int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf)
 int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf)
 {
     CAN_message_t msg = serializeCANMsg(id, len, buf);
-     return myCan2.write(msg);
+    return myCan2.write(msg);
 }
 
-void incomingCANCallback(const CAN_message_t &msg)
+void __attribute__((weak)) incomingCANCallback(const CAN_message_t &msg)
 {
     if(!SDWrite())
     {

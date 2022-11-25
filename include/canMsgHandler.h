@@ -98,6 +98,8 @@ enum
     CANLINE_2 = 2
 };
 
+typedef void (*canHandler)(const CAN_message_t &msg);
+
 /**
  * @brief Initialize a CAN object with a handler and a baud rate 
  * 
@@ -105,7 +107,7 @@ enum
  * @param baudRate 
  * @param handler 
  */
-void initializeCAN(uint8_t canLine, uint16_t baudRate, _MB_ptr handler);
+void initializeCAN(uint8_t canLine, uint32_t baudRate, canHandler handler);
 
 
 /**
