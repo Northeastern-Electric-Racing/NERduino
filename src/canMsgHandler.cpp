@@ -4,20 +4,24 @@ FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan1; // initilaizes two CAN objects
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> myCan2;
 
 
-void initializeCAN(uint8_t canLine, uint16_t baudRate = BAUD_RATE)
+void initializeCAN(uint8_t canLine = CANLINE_1, 
+    uint16_t baudRate = BAUD_RATE, 
+    const _MB_ptr &handler = &incomingCANCallback)
 {
-   if (canLine == 1){
+   if (canLine == CANLINE_1)
+   {
     myCan1.begin(); // needed to initialize the CAN object (must be first method called)
     myCan1.setBaudRate(baudRate); // sets baud rate
 
     myCan1.setMaxMB(MAX_MB_NUM);
     myCan1.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
     myCan1.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
-    myCan1.onReceive(incomingCANCallback); // sets the callback for received messages
+    myCan1.onReceive(handler); // sets the callback for received messages
     myCan1.mailboxStatus(); // prints out mailbox config information
 
    }
-   else {
+   else if (canLine ==  CANLINE_2)
+   {
 
     myCan2.begin(); // needed to initialize the CAN object (must be first method called)
     myCan2.setBaudRate(baudRate); // sets baud rate
@@ -25,7 +29,7 @@ void initializeCAN(uint8_t canLine, uint16_t baudRate = BAUD_RATE)
     myCan2.setMaxMB(MAX_MB_NUM);
     myCan2.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
     myCan2.enableFIFOInterrupt(); // enables interrupts to be used with FIFO
-    //myCan2.onReceive(incomingCANCallback); // sets the callback for received messages
+    myCan2.onReceive(handler); // sets the callback for received messages
     myCan2.mailboxStatus(); // prints out mailbox config information
    }
    
@@ -63,11 +67,6 @@ int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf)
 {
     CAN_message_t msg = serializeCANMsg(id, len, buf);
      return myCan2.write(msg);
-}
-
-__attribute__((weak)) void incomingCANCallbackCAN2 (const CAN_message_t &msg){
-
-    return;
 }
 
 void incomingCANCallback(const CAN_message_t &msg)
