@@ -62,8 +62,8 @@ int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf)
 
 int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf)
 {
-    Serial.println("SENT CAN 2");
     CAN_message_t msg = serializeCANMsg(id, len, buf);
+    msg.flags.extended = 1;
     return myCan2.write(msg);
 }
 
