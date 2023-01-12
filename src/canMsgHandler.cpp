@@ -1,7 +1,7 @@
 #include "canMsgHandler.h"
 
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan1; // initilaizes two CAN objects
-FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> myCan2;
+FlexCAN_T4<CAN3, RX_SIZE_256, TX_SIZE_16> myCan2;
 
 
 void initializeCAN(uint8_t canLine = CANLINE_1, 
@@ -62,6 +62,7 @@ int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf)
 
 int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf)
 {
+    Serial.println("SENT CAN 2");
     CAN_message_t msg = serializeCANMsg(id, len, buf);
     return myCan2.write(msg);
 }
