@@ -46,6 +46,7 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
 #define CANMSG_BMSSTATUS2           0x6B1
 #define CANMSG_BMSCHARGEDISCHARGE   0x6B0
 #define CANMSG_MC_BMS_INTEGRATION   0x202
+#define CANMSG_CHARGER              0x18E54024
 
 /*******************************************************************/
 /**
@@ -60,7 +61,28 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
  * @param buf 
  * @return int 
  */
-int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf);
+int sendMessageCAN1(uint32_t id, uint8_t len, const uint8_t *buf);
+
+/**
+ * @brief Sends CAN message on Line 2
+ * 
+ * @param id 
+ * @param len 
+ * @param buf 
+ * @return int 
+ */
+int sendMessageCAN2(uint32_t id, uint8_t len, const uint8_t *buf);
+
+
+/**
+ * @brief Serialzes data (used in sendMessageCAN functions)
+ * 
+ * @param id 
+ * @param len 
+ * @param buf
+ * @return CAN_message_t
+ */
+CAN_message_t serializeCANMsg(uint32_t id, uint8_t len, const uint8_t *buf);
 
 /**
  * @brief Processes all CAN messages
@@ -70,12 +92,23 @@ int sendMessage(uint32_t id, uint8_t len, const uint8_t *buf);
  */
 void incomingCANCallback(const CAN_message_t &msg);
 
+enum
+{
+    CANLINE_1 = 1,
+    CANLINE_2 = 2
+};
+
+typedef void (*canHandler)(const CAN_message_t &msg);
+
 /**
- * @brief Initializes a CAN object for whichever line we are choosing
+ * @brief Initialize a CAN object with a handler and a baud rate 
  * 
- * @param canLine   which CAN transceiver to use we want to use = NOT currently being used, we will probably need this eventually if we need to broadcast at different rates
+ * @param canLine 
+ * @param baudRate 
+ * @param handler 
  */
-void initializeCAN(uint8_t canLine);
+void initializeCAN(uint8_t canLine, uint32_t baudRate, canHandler handler);
+
 
 /**
  * @brief Reads in all EEPROM values and initializes the canAddr's struct
@@ -119,6 +152,7 @@ void canHandler_CANMSG_MC_BMS_INTEGRATION   (const CAN_message_t &msg);
 void canHandler_CANMSG_MC_SETPARAMETER      (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCHARGINGSTATE     (const CAN_message_t &msg);
 void canHandler_CANMSG_BMSCURRENTS          (const CAN_message_t &msg);
+void incomingCANCallbackCAN2                (const CAN_message_t &msg);
 
 //For SD logging in the TCU, isn't used anywhere else
 bool SDWrite();
