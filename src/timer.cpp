@@ -9,29 +9,29 @@ Timer::~Timer(){}
 
 void Timer::startTimer(uint32_t timeout)
 {
-    running = true;
-    expireTime = millis() + timeout;
-    isReset = 0;
+    running_ = true;
+    expire_time_ = millis() + timeout;
+    is_reset_ = 0;
 }
 
 void Timer::cancelTimer()
 {
-    running = false;
-    expireTime = millis();
-    isReset = 1;
+    running_ = false;
+    expire_time_ = millis();
+    is_reset_ = 1;
 }
 
 bool Timer::isTimerExpired()
 {
-    if(!running)
+    if(!running_)
     {
         return true;
     }
 
-    return expireTime > millis() ? false : true;
+    return expire_time_ > millis() ? false : true;
 }
 
 bool Timer::isTimerReset()
 {
-    return isReset;
+    return is_reset_;
 }

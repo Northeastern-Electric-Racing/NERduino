@@ -45,20 +45,20 @@ class SHT30
         /**
          * @brief Writes the the SHT30 via I2C
          * 
-         * @param msg 
-         * @param numBytes 
+         * @param cmd 
+         * @param num_bytes 
          */
-        void SHT30write(cmd_t *cmd, uint8_t numBytes);
+        void SHT30write(cmd_t *cmd, uint8_t num_bytes);
 
         /**
          * @brief Requests data from the SHT30 via I2C
          * 
          * @param msg 
-         * @param numBytes 
+         * @param num_bytes 
          * @return true 
          * @return false 
          */
-        bool SHT30read(uint8_t *msg, uint8_t numBytes);
+        bool SHT30read(uint8_t *msg, uint8_t num_bytes);
 
 
     public:

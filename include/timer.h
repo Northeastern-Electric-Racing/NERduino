@@ -13,9 +13,9 @@
 class Timer
 {
     private:
-        bool running = 0;
-        uint32_t expireTime;
-        bool isReset = 0;
+        bool running_ = 0;
+        uint32_t expire_time_;
+        bool is_reset_ = 0;
 
     public:
         Timer();

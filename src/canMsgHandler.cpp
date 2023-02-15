@@ -4,14 +4,14 @@ FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan1; // initilaizes two CAN objects
 FlexCAN_T4<CAN3, RX_SIZE_256, TX_SIZE_16> myCan2;
 
 
-void initializeCAN(uint8_t canLine = CANLINE_1, 
-    uint32_t baudRate = BAUD_RATE, 
+void initializeCAN(uint8_t can_line = CANLINE_1, 
+    uint32_t baud_rate = BAUD_RATE, 
     canHandler handler = &incomingCANCallback)
 {
-   if (canLine == CANLINE_1)
+   if (can_line == CANLINE_1)
    {
     myCan1.begin(); // needed to initialize the CAN object (must be first method called)
-    myCan1.setBaudRate(baudRate); // sets baud rate
+    myCan1.setBaudRate(baud_rate); // sets baud rate
 
     myCan1.setMaxMB(MAX_MB_NUM);
     myCan1.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue
@@ -20,10 +20,10 @@ void initializeCAN(uint8_t canLine = CANLINE_1,
     myCan1.mailboxStatus(); // prints out mailbox config information
 
    }
-   else if (canLine ==  CANLINE_2)
+   else if (can_line ==  CANLINE_2)
    {
     myCan2.begin(); // needed to initialize the CAN object (must be first method called)
-    myCan2.setBaudRate(baudRate); // sets baud rate
+    myCan2.setBaudRate(baud_rate); // sets baud rate
 
     myCan2.setMaxMB(MAX_MB_NUM);
     myCan2.enableFIFO(); // enables the FIFO operation mode, where all received messages are received and accessed via a queue

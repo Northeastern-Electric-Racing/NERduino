@@ -30,7 +30,8 @@ extern FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> myCan; // main CAN object
 #define CANMSG_BMSCELLDATA          0x04
 #define CANMSG_BMSCHARGINGSTATE     0x05
 #define CANMSG_BMSCURRENTS          0x06
-#define CANMSG_BMSDTCSTATUS         0x002
+#define CANMSG_CELLVOLTAGE          0x07
+#define CANMSG_BMSDTCSTATUS         0x02
 #define CANMSG_BMSCURRENTLIMITS     0x202
 #define CANMSG_ACCELERATIONCTRLINFO 0xC0
 #define CANMSG_MC_SETPARAMETER      0x0C1
@@ -103,11 +104,11 @@ typedef void (*canHandler)(const CAN_message_t &msg);
 /**
  * @brief Initialize a CAN object with a handler and a baud rate 
  * 
- * @param canLine 
- * @param baudRate 
+ * @param can_line 
+ * @param baud_rate 
  * @param handler 
  */
-void initializeCAN(uint8_t canLine, uint32_t baudRate, canHandler handler);
+void initializeCAN(uint8_t can_line, uint32_t baud_rate, canHandler handler);
 
 
 /**
