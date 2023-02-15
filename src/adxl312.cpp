@@ -16,10 +16,10 @@ ADXL312::ADXL312()
 ADXL312::~ADXL312(){}
 
 
-void ADXL312::ADXL312write(uint8_t *cmd, uint8_t numBytes)
+void ADXL312::ADXL312write(uint8_t *cmd, uint8_t num_bytes)
 {
     Wire.beginTransmission(ADXL312_I2C_ADDR);
-    for(uint8_t i=0; i<numBytes;i++)
+    for(uint8_t i=0; i<num_bytes;i++)
     {
         Wire.write(cmd[i]);
     }
@@ -27,9 +27,9 @@ void ADXL312::ADXL312write(uint8_t *cmd, uint8_t numBytes)
 }
 
 
-bool ADXL312::ADXL312read(uint8_t *msg, uint8_t numBytes)
+bool ADXL312::ADXL312read(uint8_t *msg, uint8_t num_bytes)
 {
-    Wire.requestFrom(ADXL312_I2C_ADDR, (int)numBytes);
+    Wire.requestFrom(ADXL312_I2C_ADDR, (int)num_bytes);
 
     if (Wire.available())
     {

@@ -136,24 +136,24 @@ class NERDUINO
          * @note size of buffer is determined by NUM_ADXL312_SAMPLES macro
          * 
          * @param xyzbuf 
-         * @param numReadings
+         * @param num_readings
          */
-        void getADXLdata(XYZData_t *xyzbuf, uint8_t numReadings);
+        void getADXLdata(XYZData_t *xyzbuf, uint8_t num_readings);
 
         /**
          * @brief fills a buffer of data type HumidData_t with humidity and temperature data
          * @note size of buffer is determined by NUM_SHT30_SAMPLES macro
          * 
          * @param humidbuf 
-         * @param numReadings
+         * @param num_readings
          */
-        void getSHTdata(HumidData_t *humidbuf, uint8_t numReadings);
+        void getSHTdata(HumidData_t *humidbuf, uint8_t num_readings);
         /**
          * @brief write the passed dutycycle to the AMC duty cycle register
          * 
          * @param dutycycle
          */
-        void setAMCDutyCycle(uint8_t dutyCycle);
+        void setAMCDutyCycle(uint8_t duty_cycle);
         /**
          * @brief sets the pwm frequency of the AMC duty cycle
          * @note take a value from 0 to 5 corresponsing to 1kHz, 10kHz, 20kHz, 25kHz, 30kHz, and 40kHz

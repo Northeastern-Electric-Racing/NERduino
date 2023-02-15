@@ -96,19 +96,19 @@ class AMC6821
          * @brief Writing to the local I2C bus with the address of the AMC6821
          * 
          * @param cmd 
-         * @param numBytes 
+         * @param num_bytes 
          */
-        void AMC6821write(uint8_t *cmd, uint8_t numBytes);
+        void AMC6821write(uint8_t *cmd, uint8_t num_bytes);
 
         /**
          * @brief Requesting data to read in from the AMC6821
          * 
          * @param msg 
-         * @param numBytes 
+         * @param num_bytes 
          * @return true 
          * @return false 
          */
-        bool AMC6821read(uint8_t *msg,uint8_t numBytes);
+        bool AMC6821read(uint8_t *msg, uint8_t num_bytes);
 
         /**
          * @brief Sets the characteristics of the characteristics register for PWM operation
@@ -165,9 +165,9 @@ class AMC6821
         /**
          * @brief Sets the duty cycle of the PWM output
          * 
-         * @param dutycycle
+         * @param duty_cycle
          */
-        void setDutyCycle(uint8_t dutycycle);
+        void setDutyCycle(uint8_t duty_cycle);
 
         /**
          * @brief Retrieves the current characteristics for PWM operation
@@ -185,16 +185,16 @@ class AMC6821
         /**
          * @brief Writes to the specified config register
          * 
-         * @param configNum 
+         * @param config_num 
          * @param config 
          */
-        void writeConfig(uint8_t configNum, uint8_t config);
+        void writeConfig(uint8_t config_num, uint8_t config);
         /**
          * @brief Reads specified config register
          * 
-         * @param configNum 
+         * @param config_num 
          * @param msg 
          */
-        void readConfig(uint8_t *msg, uint8_t configNum);        
+        void readConfig(uint8_t *msg, uint8_t config_num);        
 };
 #endif

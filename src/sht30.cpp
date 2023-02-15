@@ -13,10 +13,10 @@ SHT30::SHT30()                                              //Constructor for th
 SHT30::~SHT30(){}                                           //Destructor 
 
 
-void SHT30::SHT30write(cmd_t *cmd, uint8_t numBytes)        //Allows for private I2C writing with SHT30
+void SHT30::SHT30write(cmd_t *cmd, uint8_t num_bytes)        //Allows for private I2C writing with SHT30
 {
     Wire.beginTransmission(SHT30_I2C_ADDR);
-    for(uint8_t i=0; i< numBytes; i++)
+    for(uint8_t i=0; i< num_bytes; i++)
     {
         Wire.write(cmd->cmd2Bytes[i]);
     }
@@ -24,16 +24,16 @@ void SHT30::SHT30write(cmd_t *cmd, uint8_t numBytes)        //Allows for private
 }
 
 
-bool SHT30::SHT30read(uint8_t *msg, uint8_t numBytes)       //Allows for private I2C reading with SHT30
+bool SHT30::SHT30read(uint8_t *msg, uint8_t num_bytes)       //Allows for private I2C reading with SHT30
 {
-    Wire.requestFrom(SHT30_I2C_ADDR, (int)numBytes);
+    Wire.requestFrom(SHT30_I2C_ADDR, (int)num_bytes);
     if (Wire.available())
     {
-        uint8_t i2cByte=0;
+        uint8_t i2c_byte=0;
         while(Wire.available())
         {
-            msg[i2cByte] = Wire.read();
-            i2cByte++;
+            msg[i2c_byte] = Wire.read();
+            i2c_byte++;
         }
         return true;
     }
@@ -65,8 +65,8 @@ void SHT30::reset(void)                                     //Allows for a soft 
 
 bool SHT30::isHeaterEnabled()                               //Check if the heating element is turned on
 {
-    uint16_t regVal = readStatusReg();
-    return (bool) bitRead(regVal, SHT30_REG_HEATER_BIT);
+    uint16_t reg_val = readStatusReg();
+    return (bool) bitRead(reg_val, SHT30_REG_HEATER_BIT);
 }
 
 

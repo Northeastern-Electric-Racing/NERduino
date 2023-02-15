@@ -29,20 +29,20 @@ class ADXL312
         /**
          * @brief Writing to the local I2C bus with the address of the ADXL312
          * 
-         * @param msg 
-         * @param numBytes
+         * @param cmd 
+         * @param num_bytes
          */
-        void ADXL312write(uint8_t *msg, uint8_t numBytes);
+        void ADXL312write(uint8_t *cmd, uint8_t num_bytes);
 
         /**
          * @brief Requesting data to read in from the ADXL312
          * 
          * @param msg 
-         * @param numBytes 
+         * @param num_bytes 
          * @return true 
          * @return false 
          */
-        bool ADXL312read(uint8_t *msg,uint8_t numBytes);
+        bool ADXL312read(uint8_t *msg, uint8_t num_bytes);
 
     public:
         /**

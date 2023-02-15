@@ -27,10 +27,10 @@ AMC6821::AMC6821()
 AMC6821::~AMC6821(){}
 
 
-void AMC6821::AMC6821write(uint8_t *cmd, uint8_t numBytes)
+void AMC6821::AMC6821write(uint8_t *cmd, uint8_t num_bytes)
 {
     Wire.beginTransmission(AMC6821_I2C_ADDR);
-    for(uint8_t i=0; i<numBytes;i++)
+    for(uint8_t i=0; i<num_bytes;i++)
     {
         Wire.write(cmd[i]);
     }
@@ -38,9 +38,9 @@ void AMC6821::AMC6821write(uint8_t *cmd, uint8_t numBytes)
 }
 
 
-bool AMC6821::AMC6821read(uint8_t *msg,uint8_t numBytes)
+bool AMC6821::AMC6821read(uint8_t *msg,uint8_t num_bytes)
 {
-    Wire.requestFrom(AMC6821_I2C_ADDR, (int)numBytes);
+    Wire.requestFrom(AMC6821_I2C_ADDR, (int)num_bytes);
 
     if (Wire.available())
     {
@@ -114,9 +114,9 @@ void AMC6821::setPWMFreq(pwmfreq_t pwmfreq)
 }
 
 
-void AMC6821::setDutyCycle(uint8_t dutycycle)
+void AMC6821::setDutyCycle(uint8_t duty_cycle)
 {
-    uint8_t cmd[2] = {AMC6821_DUTYCYCLE_REG, dutycycle};
+    uint8_t cmd[2] = {AMC6821_DUTYCYCLE_REG, duty_cycle};
     AMC6821write(cmd, 2);
     AMC6821write(cmd, 1);
 }
@@ -144,12 +144,12 @@ void AMC6821::resetChip()
   setCharacteristics();
 }
 
-void AMC6821::writeConfig(uint8_t configNum, uint8_t config)
+void AMC6821::writeConfig(uint8_t config_num, uint8_t config)
 {
   uint8_t cmd[2];
   cmd[1] = uint8_t(config);
 
-  switch(configNum)
+  switch(config_num)
   {
     case 1:
       cmd[0] =  AMC6821_CONFIG1_REG;
@@ -171,11 +171,11 @@ void AMC6821::writeConfig(uint8_t configNum, uint8_t config)
   AMC6821write(cmd,2);
 }
 
-void AMC6821::readConfig(uint8_t *msg, uint8_t configNum)
+void AMC6821::readConfig(uint8_t *msg, uint8_t config_num)
 {
   uint8_t cmd[1];
 
-  switch(configNum)
+  switch(config_num)
   {
     case 1:
         cmd[0] =  AMC6821_CONFIG1_REG;
