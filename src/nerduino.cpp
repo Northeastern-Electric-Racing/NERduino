@@ -24,7 +24,7 @@ bool NERDUINO::begin()
 
 void NERDUINO::getADXLdata(XYZData_t *xyzbuf, uint8_t num_readings)
 {
-    uint8_t *msg = new uint8_t[6];
+    uint8_t msg[6];
     for(uint8_t i=0;i<num_readings;i++)
     {
         adxl312.getXYZ(msg);
@@ -35,15 +35,13 @@ void NERDUINO::getADXLdata(XYZData_t *xyzbuf, uint8_t num_readings)
         xyzbuf[i].YData.rawdata[1] = msg[3];
         xyzbuf[i].ZData.rawdata[0] = msg[4];
         xyzbuf[i].ZData.rawdata[1] = msg[5];
-        delay(5);
     }
-    delete[] msg;
 }
 
 
 void NERDUINO::getSHTdata(HumidData_t *humidbuf, uint8_t num_readings)
 {
-    uint8_t *msg = new uint8_t[6];
+    uint8_t msg[6];
     for(uint8_t i=0;i<num_readings;i++)
     {
         sht30.getTempHumid(msg);
@@ -53,8 +51,6 @@ void NERDUINO::getSHTdata(HumidData_t *humidbuf, uint8_t num_readings)
         humidbuf[i].HumidData.rawdata[0] = msg[4];
         humidbuf[i].HumidData.rawdata[1] = msg[3];
     }
-
-    delete[] msg;
 }
 
 void NERDUINO::setAMCDutyCycle(uint8_t duty_cycle)
