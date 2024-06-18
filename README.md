@@ -1,3 +1,5 @@
+**Public Archive. Code in use from 2022 - 2023**
+
 # NERduino
 Contains the base code for all NERduino applications
 
